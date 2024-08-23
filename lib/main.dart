@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(),
-      //home: ,
+      //home: , ဘာညာလုပ်ထားတယ်
     );
   }
 }
