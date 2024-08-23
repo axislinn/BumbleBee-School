@@ -1,18 +1,21 @@
+import 'package:bumblebee/screens/splashscreen.dart';
 import 'package:flutter/material.dart';
+ // Adjust the import path if needed
+
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+      showSemanticsDebugger: false,
+      title: 'BLoC Example',
       theme: ThemeData(
-      
+        primarySwatch: Colors.blue,
       ),
-      home: , // avbcd hello hi ahiasdjhaih yuiwhgwio arare yhuou 
+      home: SplashScreen(), // Make sure this screen exists and is correctly implemented
     );
   }
 }
-
