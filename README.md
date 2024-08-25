@@ -1,6 +1,6 @@
 # bumblebee(school)
 
-A new Flutter project.
+School
 
 ## Getting Started
 
