@@ -1,6 +1,6 @@
-import 'package:bumblebee/bloc/bloc/signup_bloc.dart';
-import 'package:bumblebee/bloc/bloc/signup_event.dart';
-import 'package:bumblebee/bloc/bloc/signup_state.dart';
+import 'package:bumblebee/bloc/signup_bloc/signup_bloc.dart';
+import 'package:bumblebee/bloc/signup_bloc/signup_event.dart';
+import 'package:bumblebee/bloc/signup_bloc/signup_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
