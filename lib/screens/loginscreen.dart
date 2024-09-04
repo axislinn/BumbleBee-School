@@ -1,6 +1,6 @@
-import 'package:bumblebee/bloc/bloc/login_bloc.dart';
-import 'package:bumblebee/bloc/bloc/login_event.dart';
-import 'package:bumblebee/bloc/bloc/login_state.dart';
+import 'package:bumblebee/bloc/login_bloc/login_bloc.dart';
+import 'package:bumblebee/bloc/login_bloc/login_event.dart';
+import 'package:bumblebee/bloc/login_bloc/login_state.dart';
 import 'package:bumblebee/data/repository/repositories/user_repository.dart';
 import 'package:bumblebee/screens/signupscreen.dart';
 import 'package:flutter/material.dart';
