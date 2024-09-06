@@ -1,10 +1,15 @@
-part of 'school_register_bloc.dart';
+// school_state.dart
 
-sealed class SchoolRegisterState extends Equatable {
-  const SchoolRegisterState();
-  
-  @override
-  List<Object> get props => [];
+abstract class SchoolState {}
+
+class SchoolInitial extends SchoolState {}
+
+class SchoolLoading extends SchoolState {}
+
+class SchoolSuccess extends SchoolState {}
+
+class SchoolFailure extends SchoolState {
+  final String error;
+
+  SchoolFailure(this.error);
 }
-
-final class SchoolRegisterInitial extends SchoolRegisterState {}
