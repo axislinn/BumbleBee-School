@@ -1,6 +1,8 @@
-import 'package:bumblebee/models/user_model.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:bumblebee/models/user_model.dart';
 
 class UserRepository {
   final String baseUrl = 'https://bumblebeeflutterdeploy-production.up.railway.app';
@@ -120,4 +122,3 @@ Future<UserModel> authenticate({required String email, required String password}
     }
   }
 }
-
