@@ -10,34 +10,34 @@ void main() {
   runApp(MyApp());
 }
  
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       showSemanticsDebugger: false,
-//       title: 'BLoC Example',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: SplashScreen(), // Make sure this screen exists and is correctly implemented
-//     );
-//   }
-// }
-
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       showSemanticsDebugger: false,
-      title: 'School Registration',
+      title: 'BLoC Example',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SchoolForm(), // Ensure this is wrapped inside a Scaffold
+      home: SplashScreen(), // Make sure this screen exists and is correctly implemented
     );
   }
 }
+
+
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       showSemanticsDebugger: false,
+//       title: 'School Registration',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: SchoolForm(), // Ensure this is wrapped inside a Scaffold
+//     );
+//   }
+// }
 
 
 // class MyApp extends StatelessWidget {

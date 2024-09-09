@@ -16,22 +16,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginButtonPressed>(_onLoginButtonPressed);
   }
 
-//   Future<void> _onLoginButtonPressed(
-//   LoginButtonPressed event, Emitter<LoginState> emit) async {
-//   emit(LoginLoading());
-//   try {
-//     UserModel user = await userRepository.authenticate(
-//       email: event.email,
-//       password: event.password,
-//     );
-//     emit(LoginSuccess(user: user));
-//   } catch (error) {
-//     print('LoginBloc: Error occurred during login - $error');
-//     emit(LoginFailure(error: error.toString()));
-//   }
-// }
-
-
 Future<void> _onLoginButtonPressed(
   LoginButtonPressed event, Emitter<LoginState> emit) async {
   emit(LoginLoading());
@@ -40,13 +24,11 @@ Future<void> _onLoginButtonPressed(
       email: event.email,
       password: event.password,
     );
-    // Ensure only success state is emitted if authentication succeeds
     emit(LoginSuccess(user: user));
   } catch (error) {
-    print('LoginBloc: Error occurred during login - $error');
+    print('LoginBloc: Error during login - $error');
     emit(LoginFailure(error: error.toString()));
   }
 }
-
 
 }
