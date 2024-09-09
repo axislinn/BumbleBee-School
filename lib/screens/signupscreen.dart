@@ -7,13 +7,15 @@ import 'package:bumblebee/bloc/signup_bloc/signup_state.dart';
 import 'package:bumblebee/screens/loginscreen.dart';
 
 class RegisterScreen extends StatelessWidget {
+  final String role;
+  
+  RegisterScreen({required this.role}); // Receive role from previous screen
+
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _rolesController = TextEditingController();
-  final TextEditingController _relationshipController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class RegisterScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Register'),
+        title: Text('Register ($role)'), // Display selected role
       ),
       body: BlocProvider<RegisterBloc>(
         create: (context) => RegisterBloc(userRepository: userRepository),
@@ -40,7 +42,7 @@ class RegisterScreen extends StatelessWidget {
               );
             }
           },
-          child: SingleChildScrollView(  // Wrap Column inside SingleChildScrollView
+          child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -67,20 +69,11 @@ class RegisterScreen extends StatelessWidget {
                     controller: _phoneController,
                     decoration: InputDecoration(labelText: 'Phone'),
                   ),
-                  TextField(
-                    controller: _rolesController,
-                    decoration: InputDecoration(labelText: 'Roles'),
-                  ),
-                  TextField(
-                    controller: _relationshipController,
-                    decoration: InputDecoration(labelText: 'Relationship'),
-                  ),
                   SizedBox(height: 20),
                   Builder(
                     builder: (context) {
                       return ElevatedButton(
                         onPressed: () {
-                          // Now the context inside this Builder will have access to the RegisterBloc
                           final registerBloc = BlocProvider.of<RegisterBloc>(context);
                           registerBloc.add(
                             RegisterButtonPressed(
@@ -89,12 +82,12 @@ class RegisterScreen extends StatelessWidget {
                               password: _passwordController.text,
                               confirmPassword: _confirmPasswordController.text,
                               phone: _phoneController.text,
-                              roles: _rolesController.text,
-                              relationship: _relationshipController.text,
+                              roles: role, // Use the selected role from previous screen
+                              relationship: '', // Adjust as needed
                             ),
                           );
                         },
-                        child: Text('Register'),
+                        child: Text('Register as $role'),
                       );
                     },
                   ),
@@ -107,3 +100,4 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 }
+
