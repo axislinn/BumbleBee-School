@@ -88,7 +88,7 @@ class _LoginFormState extends State<LoginForm> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).push(
+                Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => RegisterScreen()),
                 );
               },

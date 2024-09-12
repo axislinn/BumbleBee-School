@@ -40,7 +40,7 @@ class RegisterScreen extends StatelessWidget {
               );
             }
           },
-          child: SingleChildScrollView(  // Wrap Column inside SingleChildScrollView
+                    child: SingleChildScrollView(  // Wrap Column inside SingleChildScrollView
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
