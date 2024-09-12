@@ -1,7 +1,7 @@
 import 'package:bumblebee/bloc/school_register_bloc/school_register_bloc.dart';
 import 'package:bumblebee/data/repository/repositories/school_repository.dart';
-import 'package:bumblebee/screens/register_school.dart';
-import 'package:bumblebee/screens/splashscreen.dart';
+import 'package:bumblebee/screens/school_register/register_school.dart';
+import 'package:bumblebee/screens/auth/splashscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
  // Adjust the import path if needed

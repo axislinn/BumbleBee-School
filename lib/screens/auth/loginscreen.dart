@@ -1,6 +1,6 @@
 import 'package:bumblebee/screens/home_screen.dart';
 import 'package:bumblebee/screens/role_seletion.dart';
-import 'package:bumblebee/screens/signupscreen.dart';
+import 'package:bumblebee/screens/auth/signupscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bumblebee/bloc/login_bloc/login_bloc.dart';
@@ -89,7 +89,7 @@ class _LoginFormState extends State<LoginForm> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => RoleSelectionScreen()),
+                  MaterialPageRoute(builder: (context) => RegisterScreen()),
                 );
               },
               child: Text('Register'),
