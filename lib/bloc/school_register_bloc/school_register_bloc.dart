@@ -13,25 +13,28 @@ class SchoolBloc extends Bloc<SchoolEvent, SchoolState> {
     on<RegisterSchool>(_onRegisterSchool);
   }
 
-  Future<void> _onRegisterSchool(
-    RegisterSchool event,
-    Emitter<SchoolState> emit,
-  ) async {
-    emit(SchoolLoading());
+Future<void> _onRegisterSchool(
+  RegisterSchool event,
+  Emitter<SchoolState> emit,
+) async {
+  emit(SchoolLoading());
 
-    try {
-      // Create a School object from the event data
-      final school = School(
-        schoolName: event.schoolName,
-        address: event.address,
-        phone: event.phone,
-        email: event.email,
-      );
+  try {
+    final school = School(
+      schoolName: event.schoolName,
+      address: event.address,
+      phone: event.phone,
+      email: event.email,
+    );
 
-      await schoolRepository.registerSchool(school);
-      emit(SchoolSuccess());
-    } catch (e) {
-      emit(SchoolFailure(e.toString()));
-    }
+    // Assuming the token is available (e.g., through a provider, shared preferences, etc.)
+    final token = "your_bearer_token_here"; // Retrieve your token dynamically in real cases
+
+    await schoolRepository.registerSchool(school, token);
+    emit(SchoolSuccess());
+  } catch (e) {
+    emit(SchoolFailure(e.toString()));
   }
+}
+
 }

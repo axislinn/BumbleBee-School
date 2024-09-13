@@ -5,12 +5,15 @@ import 'package:bumblebee/models/school_model.dart';
 class SchoolRepository {
   static const String _baseUrl = 'https://bumblebeeflutterdeploy-production.up.railway.app';
 
-  Future<void> registerSchool(School school) async {
+  Future<void> registerSchool(School school, String token) async {
     final url = Uri.parse('$_baseUrl/api/school/create');
 
     final response = await http.post(
       url,
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',  // Include Bearer token here
+      },
       body: jsonEncode(school.toJson()),
     );
 
