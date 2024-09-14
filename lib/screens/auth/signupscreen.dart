@@ -10,9 +10,11 @@ class RegisterScreen extends StatelessWidget {
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _rolesController = TextEditingController();
+  final TextEditingController _rolesController =
+      TextEditingController(text: "Guardian");
   final TextEditingController _relationshipController = TextEditingController();
 
   @override
@@ -32,7 +34,8 @@ class RegisterScreen extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => LoginScreen()),
               );
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Registration Successful! Please login.')),
+                SnackBar(
+                    content: Text('Registration Successful! Please login.')),
               );
             } else if (state is RegisterFailure) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -40,7 +43,8 @@ class RegisterScreen extends StatelessWidget {
               );
             }
           },
-                    child: SingleChildScrollView(  // Wrap Column inside SingleChildScrollView
+          child: SingleChildScrollView(
+            // Wrap Column inside SingleChildScrollView
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -68,9 +72,10 @@ class RegisterScreen extends StatelessWidget {
                     decoration: InputDecoration(labelText: 'Phone'),
                   ),
                   TextField(
-                    controller: _rolesController,
-                    decoration: InputDecoration(labelText: 'Roles'),
-                  ),
+                      controller: _rolesController,
+                      decoration: InputDecoration(labelText: 'Roles'),
+                      readOnly: true
+                      ),
                   TextField(
                     controller: _relationshipController,
                     decoration: InputDecoration(labelText: 'Relationship'),
@@ -81,7 +86,8 @@ class RegisterScreen extends StatelessWidget {
                       return ElevatedButton(
                         onPressed: () {
                           // Now the context inside this Builder will have access to the RegisterBloc
-                          final registerBloc = BlocProvider.of<RegisterBloc>(context);
+                          final registerBloc =
+                              BlocProvider.of<RegisterBloc>(context);
                           registerBloc.add(
                             RegisterButtonPressed(
                               userName: _userNameController.text,
@@ -89,7 +95,7 @@ class RegisterScreen extends StatelessWidget {
                               password: _passwordController.text,
                               confirmPassword: _confirmPasswordController.text,
                               phone: _phoneController.text,
-                              roles: _rolesController.text,
+                              // roles: _rolesController.text,
                               relationship: _relationshipController.text,
                             ),
                           );
