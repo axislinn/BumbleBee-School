@@ -1,7 +1,8 @@
-import 'package:bumblebee/screens/home_screen.dart';
+import 'package:bumblebee/screens/home/home_screen.dart';
 import 'package:bumblebee/screens/role_selection/role_seletion.dart';
 import 'package:bumblebee/screens/auth/signupscreen.dart';
-import 'package:bumblebee/screens/school_register/register_school.dart';
+import 'package:bumblebee/screens/school/register_school.dart';
+import 'package:bumblebee/screens/school/school_select.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bumblebee/bloc/login_bloc/login_bloc.dart';
@@ -18,6 +19,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('Login'),
       ),
       body: BlocProvider(
@@ -50,7 +52,7 @@ class _LoginFormState extends State<LoginForm> {
       listener: (context, state) {
         if (state is LoginSuccess) {
           Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => SchoolForm()),
+            MaterialPageRoute(builder: (context) => SchoolSelect()),
           );
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Welcome, ${state.user.userName}!')),
@@ -89,8 +91,8 @@ class _LoginFormState extends State<LoginForm> {
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => RegisterScreen()),
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => RoleSelectionScreen()),
                   );
                 },
                 child: Text('Register'),

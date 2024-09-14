@@ -1,11 +1,12 @@
-import 'package:bumblebee/screens/auth/signupscreen.dart';
-import 'package:flutter/material.dart'; 
+import 'package:bumblebee/screens/school/link_school.dart';
+import 'package:bumblebee/screens/school/register_school.dart';
+import 'package:flutter/material.dart';
 
-class RoleSelectionScreen extends StatelessWidget {
+class SchoolSelect extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Select Role'),
+      appBar: AppBar(title: Text('School'),
       
       ),
       body: Center(
@@ -16,22 +17,22 @@ class RoleSelectionScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => RegisterScreen(role: 'admin'),
+                    builder: (context) => SchoolForm(),
                   ),
                 );
               },
-              child: Text('Admin'),
+              child: Text('Register School'),
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => RegisterScreen(role: 'teacher'),
+                    builder: (context) => LinkSchool(),
                   ),
                 );
               },
-              child: Text('Teacher'),
+              child: Text('Link With School'),
             ),
           ],
         ),

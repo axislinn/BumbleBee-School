@@ -54,29 +54,30 @@ class UserRepository {
   }
 
 //mwthod for sign up
-  Future<UserModel> register({
-    required String userName,
-    required String email,
-    required String password,
-    required String confirmedPassword,
-    required String phone,
-    required String relationship,
-  }) async {
-    final url = Uri.parse('$baseUrl/api/auth/register');
+Future<UserModel> register({
+  required String userName,
+  required String email,
+  required String password,
+  required String confirmedPassword,
+  required String phone,
+  required String role,  // Add role to method signature
+  // required String relationship,
+}) async {
+  final url = Uri.parse('$baseUrl/api/auth/register');
 
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode({
-        'userName': userName,
-        'email': email,
-        'password': password,
-        'confirmedPassword': confirmedPassword,
-        'phone': phone,
-        'roles': 'guardian',
-        'relationship': relationship,
-      }),
-    );
+  final response = await http.post(
+    url,
+    headers: {'Content-Type': 'application/json'},
+    body: json.encode({
+      'userName': userName,
+      'email': email,
+      'password': password,
+      'confirmedPassword': confirmedPassword,
+      'phone': phone,
+      'roles': role,  // Pass role to API
+      // 'relationship': relationship,
+    }),
+  );
 
     // Print response details for debugging
     print('Response status: ${response.statusCode}');

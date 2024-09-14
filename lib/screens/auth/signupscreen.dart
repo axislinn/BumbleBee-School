@@ -10,12 +10,14 @@ class RegisterScreen extends StatelessWidget {
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  // final TextEditingController _rolesController =
-  //     TextEditingController(text: "Guardian");
   final TextEditingController _relationshipController = TextEditingController();
+  
+  final String role;  // This will hold the role passed from the role selection screen
+
+  // Constructor to accept role
+  RegisterScreen({required this.role});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,8 @@ class RegisterScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Register'),
+        
+        title: Text('Register as $role'),  // Display the role in the title
       ),
       body: BlocProvider<RegisterBloc>(
         create: (context) => RegisterBloc(userRepository: userRepository),
@@ -34,8 +37,7 @@ class RegisterScreen extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => LoginScreen()),
               );
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                    content: Text('Registration Successful! Please login.')),
+                SnackBar(content: Text('Registration Successful! Please login.')),
               );
             } else if (state is RegisterFailure) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -44,7 +46,6 @@ class RegisterScreen extends StatelessWidget {
             }
           },
           child: SingleChildScrollView(
-            // Wrap Column inside SingleChildScrollView
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -71,22 +72,12 @@ class RegisterScreen extends StatelessWidget {
                     controller: _phoneController,
                     decoration: InputDecoration(labelText: 'Phone'),
                   ),
-                  // TextField(
-                  //     controller: _rolesController,
-                  //     decoration: InputDecoration(labelText: 'Roles'),
-                  //     readOnly: true),
-                  TextField(
-                    controller: _relationshipController,
-                    decoration: InputDecoration(labelText: 'Relationship'),
-                  ),
                   SizedBox(height: 20),
                   Builder(
                     builder: (context) {
                       return ElevatedButton(
                         onPressed: () {
-                          // Now the context inside this Builder will have access to the RegisterBloc
-                          final registerBloc =
-                              BlocProvider.of<RegisterBloc>(context);
+                          final registerBloc = BlocProvider.of<RegisterBloc>(context);
                           registerBloc.add(
                             RegisterButtonPressed(
                               userName: _userNameController.text,
@@ -94,12 +85,12 @@ class RegisterScreen extends StatelessWidget {
                               password: _passwordController.text,
                               confirmPassword: _confirmPasswordController.text,
                               phone: _phoneController.text,
-                              // roles: _rolesController.text,
-                              relationship: _relationshipController.text,
+                              role: role,  // Pass the selected role to the event
+                              // relationship: _relationshipController.text,
                             ),
                           );
                         },
-                        child: Text('Register'),
+                        child: Text('Register as $role'),  // Display the role in the button
                       );
                     },
                   ),
@@ -112,3 +103,4 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 }
+

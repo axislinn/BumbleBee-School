@@ -2,7 +2,7 @@ import 'package:bumblebee/bloc/school_register_bloc/school_register_bloc.dart';
 import 'package:bumblebee/bloc/school_register_bloc/school_register_event.dart';
 import 'package:bumblebee/bloc/school_register_bloc/school_register_state.dart';
 import 'package:bumblebee/data/repository/repositories/school_repository.dart';
-import 'package:bumblebee/screens/home_screen.dart';
+import 'package:bumblebee/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
