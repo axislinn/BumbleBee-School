@@ -5,7 +5,6 @@ class UserModel {
   final String profilePicture;
   final String phone;
   final List<String> roles;
-  final List<String> relationship;
 
   UserModel({
     required this.id,
@@ -14,7 +13,6 @@ class UserModel {
     required this.profilePicture,
     required this.phone,
     required this.roles,
-    required this.relationship,
   });
 
   // Convert a JSON map into a UserModel instance
@@ -26,7 +24,6 @@ class UserModel {
       profilePicture: json['profilePicture'] ?? '',
       phone: json['phone'] ?? '',
       roles: List<String>.from(json['roles'] ?? []), // Parse roles as List<String>
-      relationship: List<String>.from(json['relationship'] ?? []), // Parse relationship as List<String>
     );
   }
 
@@ -39,7 +36,6 @@ class UserModel {
       'profilePicture': profilePicture,
       'phone': phone,
       'roles': roles,
-      'relationship': relationship,
     };
   }
 }
