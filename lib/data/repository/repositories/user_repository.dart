@@ -73,7 +73,7 @@ class UserRepository {
         'password': password,
         'confirmedPassword': confirmedPassword,
         'phone': phone,
-        'roles': 'Guardian',
+        'roles': 'guardian',
         'relationship': relationship,
       }),
     );
