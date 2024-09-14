@@ -60,7 +60,6 @@ class UserRepository {
     required String password,
     required String confirmedPassword,
     required String phone,
-    required String roles,
     required String relationship,
   }) async {
     final url = Uri.parse('$baseUrl/api/auth/register');
@@ -74,7 +73,7 @@ class UserRepository {
         'password': password,
         'confirmedPassword': confirmedPassword,
         'phone': phone,
-        'roles': roles,
+        'roles': 'Guardian',
         'relationship': relationship,
       }),
     );
