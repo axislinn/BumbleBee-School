@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'package:bumblebee/models/Admin/school_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:bumblebee/models/school_model.dart';
 
 class SchoolRepository {
   static const String _baseUrl = 'https://bumblebeeflutterdeploy-production.up.railway.app';

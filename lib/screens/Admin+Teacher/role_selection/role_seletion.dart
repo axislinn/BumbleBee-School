@@ -1,4 +1,4 @@
-import 'package:bumblebee/screens/auth/signupscreen.dart';
+import 'package:bumblebee/screens/Admin+Teacher/auth/signupscreen.dart';
 import 'package:flutter/material.dart'; 
 
 class RoleSelectionScreen extends StatelessWidget {

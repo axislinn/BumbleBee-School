@@ -1,3 +1,4 @@
+import 'package:bumblebee/screens/Teacher/Teacher_home.dart';
 import 'package:flutter/material.dart';
 
 class LinkSchool extends StatefulWidget {
@@ -9,11 +10,28 @@ class LinkSchool extends StatefulWidget {
 
 class _LinkSchoolState extends State<LinkSchool> {
   final TextEditingController _controller = TextEditingController();
+  bool _isLoading = false;
 
-  void _handleButtonPress() {
-    // Handle the button press action here
+  void _handleButtonPress() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    // Simulate a network request or processing delay
+    await Future.delayed(Duration(seconds: 2));
+
     final inputText = _controller.text;
     print('Button pressed with input: $inputText');
+
+    // Navigate to the Teacher Home Page
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => TeacherHomePage()),
+    );
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -35,8 +53,17 @@ class _LinkSchoolState extends State<LinkSchool> {
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: _handleButtonPress,
-              child: const Text('Link With School'),
+              onPressed: _isLoading ? null : _handleButtonPress,
+              child: _isLoading
+                  ? SizedBox(
+                      height: 16,
+                      width: 16,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: const Color.fromARGB(255, 106, 24, 121),
+                      ),
+                    )
+                  : const Text('Link With School'),
             ),
           ],
         ),

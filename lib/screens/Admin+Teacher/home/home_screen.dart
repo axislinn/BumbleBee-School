@@ -1,5 +1,5 @@
-import 'package:bumblebee/screens/bottom_nav/bottom_nav.dart';
-import 'package:bumblebee/screens/navi_drawer/navi_drawer_screen.dart';
+import 'package:bumblebee/screens/Admin+Teacher/bottom_nav/bottom_nav.dart';
+import 'package:bumblebee/screens/Admin+Teacher/navi_drawer/navi_drawer_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {

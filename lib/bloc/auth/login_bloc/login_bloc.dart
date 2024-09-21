@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:bumblebee/bloc/login_bloc/login_event.dart';
-import 'package:bumblebee/bloc/login_bloc/login_state.dart';
-import 'package:bumblebee/data/repository/repositories/user_repository.dart';
-import 'package:bumblebee/models/user_model.dart';
+import 'package:bumblebee/bloc/auth/login_bloc/login_event.dart';
+import 'package:bumblebee/bloc/auth/login_bloc/login_state.dart';
+import 'package:bumblebee/data/repositories/Admin+Teacher/user_repository.dart';
+import 'package:bumblebee/models/Admin+Teacher/user_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'login_event.dart';
 import 'login_state.dart';
