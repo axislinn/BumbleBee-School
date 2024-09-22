@@ -1,3 +1,5 @@
+import 'package:bumblebee/data/repositories/Admin+Teacher/class_repository.dart';
+
 import '../home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -84,7 +86,7 @@ class _NaviDrawerState extends State<NaviDrawer> {
               Navigator.pop(context);
               Navigator.of(context).pushAndRemoveUntil(
                 PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) => const JoinClassPage(),
+                  pageBuilder: (context, animation, secondaryAnimation) => JoinClassPage(),
                   transitionsBuilder: (context, animation, secondaryAnimation, child) {
                     return child;
                   },
