@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:bumblebee/bloc/auth/signup_bloc/signup_event.dart';
-import 'package:bumblebee/bloc/auth/signup_bloc/signup_state.dart';
+import 'package:bumblebee/bloc/Admin+Teacher/auth/signup_bloc/signup_event.dart';
+import 'package:bumblebee/bloc/Admin+Teacher/auth/signup_bloc/signup_state.dart';
 import 'package:bumblebee/data/repositories/Admin+Teacher/user_repository.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {

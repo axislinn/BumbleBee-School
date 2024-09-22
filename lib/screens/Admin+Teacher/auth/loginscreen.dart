@@ -5,9 +5,9 @@ import 'package:bumblebee/screens/Admin/register_school.dart';
 import 'package:bumblebee/screens/Admin+Teacher/school_select.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:bumblebee/bloc/auth/login_bloc/login_bloc.dart';
-import 'package:bumblebee/bloc/auth/login_bloc/login_event.dart';
-import 'package:bumblebee/bloc/auth/login_bloc/login_state.dart';
+import 'package:bumblebee/bloc/Admin+Teacher/auth/login_bloc/login_bloc.dart';
+import 'package:bumblebee/bloc/Admin+Teacher/auth/login_bloc/login_event.dart';
+import 'package:bumblebee/bloc/Admin+Teacher/auth/login_bloc/login_state.dart';
 import 'package:bumblebee/data/repositories/Admin+Teacher/user_repository.dart';
 
 class LoginScreen extends StatelessWidget {
