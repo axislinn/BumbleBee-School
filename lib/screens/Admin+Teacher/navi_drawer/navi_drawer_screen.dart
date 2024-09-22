@@ -86,7 +86,8 @@ class _NaviDrawerState extends State<NaviDrawer> {
               Navigator.pop(context);
               Navigator.of(context).pushAndRemoveUntil(
                 PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) => JoinClassPage(classRepository: ClassRepository(token),),
+                  pageBuilder: (context, animation, secondaryAnimation) => JoinClassPage(),
+
                   transitionsBuilder: (context, animation, secondaryAnimation, child) {
                     return child;
                   },
