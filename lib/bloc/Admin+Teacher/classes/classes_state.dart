@@ -1,4 +1,3 @@
-// class_states.dart
 import 'package:bumblebee/models/Admin+Teacher/class_model.dart';
 import 'package:equatable/equatable.dart';
 
@@ -12,7 +11,7 @@ abstract class ClassState extends Equatable {
 class ClassInitial extends ClassState {}
 
 class ClassesLoaded extends ClassState {
-  final List<ClassModel> classes; // Change to ClassModel
+  final List<ClassModel> classes;
 
   ClassesLoaded(this.classes);
 

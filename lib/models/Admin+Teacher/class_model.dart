@@ -21,7 +21,6 @@ class ClassModel {
     required this.announcements,
   });
 
-  // You can add methods for JSON serialization if needed
   factory ClassModel.fromJson(Map<String, dynamic> json) {
     return ClassModel(
       id: json['_id'] ?? '',

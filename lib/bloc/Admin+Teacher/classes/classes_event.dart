@@ -12,21 +12,12 @@ class LoadClassesEvent extends ClassEvent {}
 
 class AddClassEvent extends ClassEvent {
   final String className;
-  final String grade;
-  final String classCode;
-  final String school;
 
-  AddClassEvent({
-    required this.className,
-    required this.grade,
-    required this.classCode,
-    required this.school,
-  });
+  AddClassEvent(this.className);
 
   @override
-  List<Object> get props => [className, grade, classCode, school];
+  List<Object> get props => [className];
 }
-
 
 class DeleteClassEvent extends ClassEvent {
   final String className;
