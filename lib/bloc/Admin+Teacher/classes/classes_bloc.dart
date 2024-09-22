@@ -1,4 +1,3 @@
-// class_bloc.dart
 import 'package:bumblebee/bloc/Admin+Teacher/classes/classes_event.dart';
 import 'package:bumblebee/bloc/Admin+Teacher/classes/classes_state.dart';
 import 'package:bumblebee/data/repositories/Admin+Teacher/class_repository.dart';
@@ -20,18 +19,7 @@ class ClassBloc extends Bloc<ClassEvent, ClassState> {
 
     on<AddClassEvent>((event, emit) async {
       try {
-        final newClass = ClassModel(
-          id: '', // Set an appropriate ID if needed
-          grade: '', // Set other fields accordingly
-          className: event.className,
-          classCode: '', // Set other fields accordingly
-          school: '', // Set other fields accordingly
-          students: [],
-          teachers: [],
-          guardians: [],
-          announcements: [],
-        );
-        await classRepository.createClass(newClass);
+        await classRepository.createClass(event.grade, event.className);
         final classes = await classRepository.fetchClasses();
         emit(ClassesLoaded(classes));
       } catch (error) {

@@ -1,9 +1,8 @@
-// class_events.dart
 import 'package:equatable/equatable.dart';
 
 abstract class ClassEvent extends Equatable {
   const ClassEvent();
-  
+
   @override
   List<Object> get props => [];
 }
@@ -11,12 +10,13 @@ abstract class ClassEvent extends Equatable {
 class LoadClassesEvent extends ClassEvent {}
 
 class AddClassEvent extends ClassEvent {
+  final String grade;
   final String className;
 
-  AddClassEvent(this.className);
+  AddClassEvent(this.grade, this.className);
 
   @override
-  List<Object> get props => [className];
+  List<Object> get props => [grade, className];
 }
 
 class DeleteClassEvent extends ClassEvent {

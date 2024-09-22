@@ -21,14 +21,10 @@ class JoinClassPage extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  // Provide Bloc when navigating to ClassDisplayScreen
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => BlocProvider(
-                        create: (context) => ClassBloc(classRepository)..add(LoadClassesEvent()),
-                        child: ClassDisplayScreen(classRepository: classRepository),
-                      ),
+                      builder: (context) => ClassDisplayScreen(classRepository: classRepository),
                     ),
                   );
                 },
@@ -49,15 +45,25 @@ class JoinClassPage extends StatelessWidget {
 
   void _showAddClassDialog(BuildContext parentContext) {
     final TextEditingController classController = TextEditingController();
+    final TextEditingController gradeController = TextEditingController();
 
     showDialog(
       context: parentContext,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
           title: Text('Add New Class'),
-          content: TextField(
-            controller: classController,
-            decoration: InputDecoration(hintText: 'Enter class name'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: classController,
+                decoration: InputDecoration(hintText: 'Enter class name'),
+              ),
+              TextField(
+                controller: gradeController,
+                decoration: InputDecoration(hintText: 'Enter grade'),
+              ),
+            ],
           ),
           actions: [
             TextButton(
@@ -68,7 +74,9 @@ class JoinClassPage extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                BlocProvider.of<ClassBloc>(parentContext).add(AddClassEvent(classController.text));
+                BlocProvider.of<ClassBloc>(parentContext).add(
+                  AddClassEvent(gradeController.text, classController.text),
+                );
                 Navigator.pop(dialogContext);
               },
               child: Text('Add'),

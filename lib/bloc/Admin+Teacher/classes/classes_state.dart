@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 
 abstract class ClassState extends Equatable {
   const ClassState();
-  
+
   @override
   List<Object> get props => [];
 }
