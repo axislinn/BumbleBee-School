@@ -5,7 +5,19 @@ import 'package:bumblebee/data/repositories/Admin+Teacher/class_repository.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ClassDisplayScreen extends StatelessWidget {
+class ClassDisplayScreen extends StatefulWidget {
+  @override
+  _ClassDisplayScreenState createState() => _ClassDisplayScreenState();
+}
+
+class _ClassDisplayScreenState extends State<ClassDisplayScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Trigger loading of classes when the screen is initialized
+    context.read<ClassBloc>().add(LoadClasses());
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ClassBloc, ClassState>(
@@ -57,4 +69,3 @@ class ClassDisplayScreen extends StatelessWidget {
     );
   }
 }
-
