@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: AdminHomePage(), // Use AdminScreen or TeacherScreen as needed
+      home: SplashScreen(), // Use AdminScreen or TeacherScreen as needed
     );
   }
 }

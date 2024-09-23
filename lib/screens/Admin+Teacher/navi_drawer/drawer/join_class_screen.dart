@@ -9,25 +9,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class JoinClassPage extends StatelessWidget {
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Admin Screen')),
-      body: Column(
-        children: [
-          Expanded(child: ClassDisplayScreen()),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                onPressed: () => _showCreateClassDialog(context),
-                child: Text('Create Class'),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(title: Text('Admin Screen')),
+    body: Column(
+      children: [
+        Expanded(child: ClassDisplayScreen()),  // Main content stays the same
+      ],
+    ),
+    floatingActionButton: FloatingActionButton(
+      onPressed: () => _showCreateClassDialog(context),  // Opens the dialog for creating a class
+      child: Icon(Icons.add),  // The '+' icon for adding a class
+    ),
+    floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,  // Places the button at the bottom center
+  );
+}
+
 
   void _showCreateClassDialog(BuildContext context) {
     final classNameController = TextEditingController();
