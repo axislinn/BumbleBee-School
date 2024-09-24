@@ -5,13 +5,14 @@ class Class {
 
   Class({required this.id, required this.className, required this.grade});
 
-  factory Class.fromJson(Map<String, dynamic> json) {
-    return Class(
-      id: json['id'],
-      className: json['className'],
-      grade: json['grade'],
-    );
-  }
+factory Class.fromJson(Map<String, dynamic> json) {
+  return Class(
+    id: json['id'] ?? '', // Handle null id by providing a default value
+    className: json['className'] ?? '',
+    grade: json['grade'] ?? '',
+  );
+}
+
 
   Map<String, dynamic> toJson() {
     return {

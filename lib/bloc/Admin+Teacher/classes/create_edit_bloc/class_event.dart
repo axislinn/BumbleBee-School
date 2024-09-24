@@ -11,9 +11,10 @@ class CreateClass extends ClassEvent {
 }
 
 class EditClass extends ClassEvent {
-  final Class updatedClass;
-  EditClass(this.updatedClass);
+  final Map<String, dynamic> updatedClassData; // Accepts a Map
+  EditClass(this.updatedClassData);
 }
+
 
 class DeleteClass extends ClassEvent {
   final String classId;
