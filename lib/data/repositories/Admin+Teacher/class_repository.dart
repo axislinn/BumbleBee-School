@@ -1,15 +1,17 @@
 import 'dart:convert';
 import 'package:bumblebee/models/Admin+Teacher/class_model.dart';
+import 'package:bumblebee/models/Admin+Teacher/student_model.dart';
+import 'package:bumblebee/models/Admin+Teacher/user_model.dart';
 import 'package:bumblebee/models/Admin/school_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ClassRepository {
-  final String baseUrl = 'https://bumblebeeflutterdeploy-production.up.railway.app/api/class';
+  final String baseUrl = 'https://bumblebeeflutterdeploy-production.up.railway.app';
 
 Future<List<Class>> fetchClasses(String token) async {
   final response = await http.get(
-    Uri.parse('$baseUrl/readByAdmin'),
+    Uri.parse('$baseUrl/api/class/readByAdmin'),
     headers: {
       'Authorization': 'Bearer $token',
       'Content-Type': 'application/json',
@@ -39,7 +41,7 @@ Future<List<Class>> fetchClasses(String token) async {
 
   Future<void> createClass(Class newClass, String token) async {
     final response = await http.post(
-      Uri.parse('$baseUrl/create'),
+      Uri.parse('$baseUrl/api/class/create'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token', 
@@ -57,9 +59,10 @@ Future<List<Class>> fetchClasses(String token) async {
 
     print('Parsed JSON response: $jsonResponse');
 
-        Future<Class> createClass(Class newClass, String token) async {
+  
+  Future<Class> createClass(Class newClass, String token) async {
   final response = await http.post(
-    Uri.parse('$baseUrl/create'),
+    Uri.parse('$baseUrl/api/class/create'),
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token', 
@@ -110,7 +113,7 @@ Future<List<Class>> fetchClasses(String token) async {
 
 Future<void> editClass(Map<String, dynamic> updatedClassData, String token) async {
   final response = await http.put(
-    Uri.parse('$baseUrl/edit'), // Ensure you are calling the correct endpoint
+    Uri.parse('$baseUrl/api/class/edit'), // Ensure you are calling the correct endpoint
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
@@ -124,8 +127,152 @@ Future<void> editClass(Map<String, dynamic> updatedClassData, String token) asyn
   }
 }
 
+deleteClass(String classId) {}
 
 
-  deleteClass(String classId) {}
+  Future<List<Class>> getClasses(String token) async {
+    final url = Uri.parse('$baseUrl/api/class/readByTeacherAndGuardian');
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 505) {
+      print("This is 505");
+      throw Exception('There are no classes registered'); // need to fix this. The screen displays "Error exception: There are no classes registered". There should be no "error exception"
+    } else if (response.statusCode != 200) {
+      print("This is not 200");
+      throw Exception('Failed to get class data. Status code: ${response.statusCode}'); // status code wont be printed to the user. This is just for testing 
+    }
+
+
+    // Decode the response body
+    final Map<String, dynamic> data = jsonDecode(response.body);
+
+    print(data['result']);
+
+
+    // Extract the list of classes from the "result" field
+    List<dynamic> classesList = data['result']['classes'];
+
+    print("testing $classesList");
+
+    // Map the JSON data to a list of ClassModel objects
+    return classesList.map((json) => Class.fromJson(json)).toList();
+
+  }
+
+
+    Future<void> requestToJoinClass(String token, String classCode) async {
+    final url = Uri.parse('$baseUrl/api/request/create');
+    
+
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({'classCode': classCode}),
+    );
+    print("API sent"); // testing
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to join class. Status code: ${response.body}'); // used body because
+    }
+
+    final responseData = jsonDecode(response.body);
+    print('Join class response: $responseData');
+  }
+
+
+Future<List<StudentModel>> getStudentsByClassId(String token, String classId) async {
+    final url = Uri.parse('$baseUrl/api/student/get/$classId');
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to get student data. Status code: ${response.statusCode}');
+    }
+
+      // Decode the response body
+      final Map<String, dynamic> data = jsonDecode(response.body);
+
+      // Extract the list of classes from the "result" field
+      List<dynamic> classesList = data['result'];
+
+      // Map the JSON data to a list of StudentModel objects
+      return classesList.map((json) => StudentModel.fromJson(json)).toList();
+  }
+
+  // Add a student to a class
+  Future<void> addStudentToClass(String token, String classId, String studentName, String studentDOB) async {
+    final url = Uri.parse('$baseUrl/api/student/add/$classId');
+
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({
+        'name': studentName,
+        'dateofBirth': studentDOB,
+      }),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to add student to class. Status code: ${response.statusCode}'); // printing the status codee is for testing. We will need need to remove it in production
+    }
+
+    final responseData = jsonDecode(response.body);
+    print('Add student response: $responseData');
+  }
+
+// Get pending guardian requests
+Future<List<UserModel>> getPendingGuardianRequests(String token, String classId, String studentId) async {
+  final url = Uri.parse('$baseUrl/api/request/read?classId=$classId&studentId=$studentId'); 
+
+  final response = await http.get(
+    url,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    },
+  );
+
+  print("This is the status code ${response.statusCode}");
+
+  if (response.statusCode != 200) {
+    throw Exception('Failed to get guardian requests. Status code: ${response.statusCode}');
+  }
+
+  // Decode the response body
+  final Map<String, dynamic> data = jsonDecode(response.body);
+
+ print("this is data $data");
+
+  // Check if the result is not empty
+  if (data['result'] != null) {
+    // Extract the sender data from the result and map to UserModel
+    List<dynamic> requests = data['result'];
+    print("returned $requests");
+    return requests.map((request) => UserModel.fromJson(request['sender'])).toList();
+  }
+
+  return []; // Return an empty list if no requests are found
+}
+
+
 
 }
