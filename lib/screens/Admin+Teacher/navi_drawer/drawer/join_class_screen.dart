@@ -1,5 +1,5 @@
-import 'package:bumblebee/bloc/Admin+Teacher/classes/bloc/class_bloc.dart';
-import 'package:bumblebee/bloc/Admin+Teacher/classes/bloc/class_event.dart';
+import 'package:bumblebee/bloc/Admin+Teacher/classes/create_edit_bloc/class_bloc.dart';
+import 'package:bumblebee/bloc/Admin+Teacher/classes/create_edit_bloc/class_event.dart';
 import 'package:bumblebee/data/repositories/Admin+Teacher/class_repository.dart';
 import 'package:bumblebee/models/Admin+Teacher/class_model.dart';
 import 'package:bumblebee/screens/Admin+Teacher/classes/classes.dart';

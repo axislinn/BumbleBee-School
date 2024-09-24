@@ -7,12 +7,29 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ClassRepository {
   final String baseUrl = 'https://bumblebeeflutterdeploy-production.up.railway.app/api/class';
 
-Future<List<Class>> fetchClasses() async {
-  final response = await http.get(Uri.parse('$baseUrl/list'));
-  
+Future<List<Class>> fetchClasses(String token) async {
+  final response = await http.get(
+    Uri.parse('$baseUrl/readByAdmin'),
+    headers: {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    },
+  );
+
   if (response.statusCode == 200) {
-    List<dynamic> jsonList = json.decode(response.body);
-    return jsonList.map((json) => Class.fromJson(json)).toList();
+    // Decode the response body as a map
+    Map<String, dynamic> jsonResponse = json.decode(response.body);
+
+    // Check if 'result' and 'classes' are not null
+    if (jsonResponse['result'] != null && jsonResponse['result']['classes'] != null) {
+      List<dynamic> jsonList = jsonResponse['result']['classes'];
+
+      // Map the list to Class objects and handle possible nulls in the JSON fields
+      return jsonList.map((json) => Class.fromJson(json)).toList();
+    } else {
+      // Handle the case where 'result' or 'classes' is null
+      throw Exception('Invalid data: classes not found in response');
+    }
   } else {
     print('Failed to load classes: ${response.statusCode} - ${response.body}');
     throw Exception('Failed to load classes');
@@ -89,45 +106,26 @@ Future<List<Class>> fetchClasses() async {
   }
 }
 
-  Future<void> editClass(Class updatedClass) async {
-    final response = await http.put(
-      Uri.parse('$baseUrl/edit/${updatedClass.id}'),
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode(updatedClass.toJson()),
-    );
-    if (response.statusCode != 200) {
-      throw Exception('Failed to edit class');
-    }
-  }
+}
 
-  Future<void> deleteClass(String id) async {
-    final response = await http.delete(
-      Uri.parse('$baseUrl/delete/$id'),
-    );
-    if (response.statusCode != 200) {
-      throw Exception('Failed to delete class');
-    }
+Future<void> editClass(Map<String, dynamic> updatedClassData, String token) async {
+  final response = await http.put(
+    Uri.parse('$baseUrl/edit'), // Ensure you are calling the correct endpoint
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    },
+    body: json.encode(updatedClassData), // Pass the map directly
+  );
+
+  if (response.statusCode != 200) {
+    print('Failed to edit class: ${response.statusCode} - ${response.body}');
+    throw Exception('Failed to edit class');
   }
 }
 
-  editClass(Class updatedClass) async {
-    final response = await http.put(
-      Uri.parse('$baseUrl/edit/${updatedClass.id}'),
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode(updatedClass.toJson()),
-    );
-    if (response.statusCode != 200) {
-      throw Exception('Failed to edit class');
-    }
-  }
 
 
-  deleteClass(String classId) async {
-    final response = await http.delete(
-      Uri.parse('$baseUrl/delete/$classId'),
-    );
-    if (response.statusCode != 200) {
-      throw Exception('Failed to delete class');
-    }
-  }
+  deleteClass(String classId) {}
+
 }
