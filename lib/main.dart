@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: AdminHomePage(), // Use AdminScreen or TeacherScreen as needed
+      home: SplashScreen(), // Use AdminScreen or TeacherScreen as needed
     );
   }
 }

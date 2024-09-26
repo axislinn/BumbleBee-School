@@ -127,7 +127,23 @@ Future<void> editClass(Map<String, dynamic> updatedClassData, String token) asyn
   }
 }
 
-deleteClass(String classId) {}
+Future<void> deleteClass(String classId, String token) async {
+  final response = await http.delete(
+    Uri.parse('$baseUrl/api/class/delete'), // Adjust the endpoint as necessary
+    headers: {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    print('Class deleted successfully.');
+  } else {
+    print('Failed to delete class: ${response.statusCode} - ${response.body}');
+    throw Exception('Failed to delete class');
+  }
+}
+
 
 
   Future<List<Class>> getClasses(String token) async {

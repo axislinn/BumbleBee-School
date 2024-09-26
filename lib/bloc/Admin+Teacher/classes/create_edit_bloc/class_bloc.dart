@@ -81,8 +81,14 @@ Future<void> _onEditClass(EditClass event, Emitter<ClassState> emit) async {
 
 
   Future<void> _onDeleteClass(DeleteClass event, Emitter<ClassState> emit) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  final token = prefs.getString('userToken');
+
+  if (token == null) {
+    throw Exception('Authentication token not found');
+  }
     try {
-      await classRepository.deleteClass(event.classId);
+      await classRepository.deleteClass(event.classId, token);
       add(LoadClasses());
     } catch (e) {
       emit(ClassError(e.toString()));
