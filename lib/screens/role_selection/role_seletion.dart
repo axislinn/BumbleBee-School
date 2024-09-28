@@ -1,12 +1,12 @@
 import 'package:bumblebee/screens/auth/signupscreen.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 
 class RoleSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Select Role'),
-      
+      appBar: AppBar(
+        title: Text('Select Role'),
       ),
       body: Center(
         child: Column(
