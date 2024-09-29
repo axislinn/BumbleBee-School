@@ -30,7 +30,7 @@ class SchoolForm extends StatelessWidget {
                 SnackBar(content: Text('School registered successfully!')),
               );
               Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => HomePage()),
+                MaterialPageRoute(builder: (context) => HomeScreen()),
               );
             } else if (state is SchoolFailure) {
               ScaffoldMessenger.of(context).showSnackBar(

@@ -1,19 +1,29 @@
-abstract class PostEvent {}
+import 'dart:io'; // Import for file handling
+import 'package:equatable/equatable.dart'; // Optional for Equatable
+
+abstract class PostEvent extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
 class CreatePost extends PostEvent {
   final String heading;
   final String? body;
   final String contentType;
-  //final List<String>? reactions;
   final String classId;
   final String schoolId;
+  final File? contentPicture; // Add this for the image file
 
   CreatePost({
     required this.heading,
-    required this.body,
+    this.body,
     required this.contentType,
-    //required this.reactions,
     required this.classId,
     required this.schoolId,
+    this.contentPicture, // Optionally pass an image file here
   });
+
+  @override
+  List<Object?> get props =>
+      [heading, body, contentType, classId, schoolId, contentPicture];
 }

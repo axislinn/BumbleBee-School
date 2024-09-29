@@ -34,6 +34,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         contentType: event.contentType,
         classId: event.classId,
         schoolId: schoolId,
+        contentPicture: event.contentPicture, // Pass the image file
       );
 
       // Call repository to create post

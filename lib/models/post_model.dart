@@ -1,7 +1,9 @@
+import 'dart:io';
+
 class PostModel {
   final String heading;
   final String? body; // Optional field for post content
-  final String? contentPicture; // Optional field for content image
+  final File? contentPicture; // Optional field for content image
   final String contentType; // Required field for content type
   final int? reactions; // Optional field for reactions, now an int
   final String classId; // Required field for class ID

@@ -1,19 +1,17 @@
 import 'dart:io';
-
-import 'package:bumblebee/bloc/post_bloc/post_bloc.dart';
-import 'package:bumblebee/bloc/post_bloc/post_event.dart';
-import 'package:bumblebee/bloc/post_bloc/post_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:bumblebee/bloc/post_bloc/post_bloc.dart';
+import 'package:bumblebee/bloc/post_bloc/post_event.dart';
+import 'package:bumblebee/bloc/post_bloc/post_state.dart';
 
-class CreatePostDialogContent extends StatefulWidget {
+class CreatePostScreen extends StatefulWidget {
   @override
-  _CreatePostDialogContentState createState() =>
-      _CreatePostDialogContentState();
+  _CreatePostScreenState createState() => _CreatePostScreenState();
 }
 
-class _CreatePostDialogContentState extends State<CreatePostDialogContent> {
+class _CreatePostScreenState extends State<CreatePostScreen> {
   final TextEditingController _headingController = TextEditingController();
   final TextEditingController _bodyController = TextEditingController();
   String? selectedClass;
@@ -26,18 +24,19 @@ class _CreatePostDialogContentState extends State<CreatePostDialogContent> {
   final List<String> contentTypes = ['feed', 'announcement'];
   final ImagePicker _picker = ImagePicker();
 
-  // Define or receive schoolId here
   final String schoolId = 'your_school_id_here';
 
+  // Method to pick an image from the gallery
   Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
-        _image = File(pickedFile.path);
+        _image = File(pickedFile.path); // Set the picked image file
       });
     }
   }
 
+  // Form validation logic
   String? _validateForm() {
     if (_headingController.text.isEmpty) {
       return 'Please enter a heading';
@@ -74,27 +73,21 @@ class _CreatePostDialogContentState extends State<CreatePostDialogContent> {
               .showSnackBar(SnackBar(content: Text('Failed to create post')));
         }
       },
-      child: Dialog(
-        insetPadding: EdgeInsets.all(16),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        child: Container(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Create Post'),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ),
+        body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
             child: Column(
-              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('Create Post',
-                    style:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                SizedBox(height: 10),
-                TextField(
-                    controller: _headingController,
-                    decoration: InputDecoration(labelText: 'Heading')),
-                SizedBox(height: 10),
-                TextField(
-                    controller: _bodyController,
-                    decoration: InputDecoration(labelText: 'Body (optional)')),
-                SizedBox(height: 10),
+                // Dropdown for Grade and Class
                 Row(
                   children: [
                     Expanded(
@@ -131,6 +124,8 @@ class _CreatePostDialogContentState extends State<CreatePostDialogContent> {
                   ],
                 ),
                 SizedBox(height: 10),
+
+                // Dropdown for Content Type
                 DropdownButtonFormField<String>(
                   value: selectedContentType,
                   items: contentTypes.map((String value) {
@@ -144,34 +139,62 @@ class _CreatePostDialogContentState extends State<CreatePostDialogContent> {
                   },
                   decoration: InputDecoration(labelText: 'Select Content Type'),
                 ),
+
+                // Heading TextField
+                TextField(
+                  controller: _headingController,
+                  decoration: InputDecoration(labelText: 'Heading'),
+                ),
+
+                // Body TextField
                 SizedBox(height: 10),
+                TextField(
+                  controller: _bodyController,
+                  decoration: InputDecoration(labelText: 'Body'),
+                ),
+
+                // Image Picker
+                SizedBox(height: 30),
                 _image != null
                     ? Image.file(_image!,
-                        height: 100, width: 100, fit: BoxFit.cover)
+                        height: 300, width: 300, fit: BoxFit.cover)
                     : TextButton.icon(
                         icon: Icon(Icons.photo),
                         label: Text('Add Photo'),
-                        onPressed: _pickImage),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    final validationError = _validateForm();
-                    if (validationError != null) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(validationError)));
-                    } else {
-                      context.read<PostBloc>().add(CreatePost(
-                            heading: _headingController.text,
-                            body: _bodyController.text,
-                            //contentPicture:
-                            //_image, // Ensure this is included if needed
-                            contentType: selectedContentType!,
-                            classId: selectedClass!,
-                            schoolId: schoolId,
-                          ));
-                    }
-                  },
-                  child: Text('Create Post'),
+                        onPressed: _pickImage, // Open image picker
+                      ),
+
+                // Action buttons (Cancel and Create Post)
+                SizedBox(height: 30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: Text('Cancel'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        final validationError = _validateForm();
+                        if (validationError != null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(validationError)));
+                        } else {
+                          // Dispatch CreatePost event with the selected image
+                          context.read<PostBloc>().add(CreatePost(
+                                heading: _headingController.text,
+                                body: _bodyController.text,
+                                contentType: selectedContentType!,
+                                classId: selectedClass!,
+                                schoolId: schoolId,
+                                contentPicture:
+                                    _image, // Pass the selected image
+                              ));
+                        }
+                      },
+                      child: Text('Create Post'),
+                    ),
+                  ],
                 ),
               ],
             ),
