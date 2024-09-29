@@ -1,11 +1,11 @@
 import 'dart:io';
-import 'package:bumblebee/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:bumblebee/bloc/post_bloc/post_bloc.dart';
 import 'package:bumblebee/bloc/post_bloc/post_event.dart';
 import 'package:bumblebee/bloc/post_bloc/post_state.dart';
+import 'package:bumblebee/screens/home/home_screen.dart';
 
 class CreatePostScreen extends StatefulWidget {
   @override
@@ -27,17 +27,15 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
   final String schoolId = 'your_school_id_here';
 
-  // Method to pick an image from the gallery
   Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
-        _image = File(pickedFile.path); // Set the picked image file
+        _image = File(pickedFile.path);
       });
     }
   }
 
-  // Form validation logic
   String? _validateForm() {
     if (_headingController.text.isEmpty) {
       return 'Please enter a heading';
@@ -66,12 +64,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
           );
         } else if (state is PostSuccess) {
           Navigator.of(context).pop(); // Close the progress dialog
-
-          // After the post is created successfully, navigate to the home screen
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => HomeScreen()),
           );
-
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Post created successfully!')));
         } else if (state is PostFailure) {
@@ -82,7 +77,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Create Post'),
+          title: Text('Create Post', style: TextStyle(color: Colors.white)),
+          backgroundColor: Colors.blueAccent,
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () => Navigator.of(context).pop(),
@@ -92,9 +88,14 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
           padding: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Dropdown for Grade and Class
+                Text('Select Grade and Class',
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                SizedBox(
+                  height: 20,
+                ),
                 Row(
                   children: [
                     Expanded(
@@ -109,7 +110,12 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                             selectedGrade = newValue;
                           });
                         },
-                        decoration: InputDecoration(labelText: 'Select Grade'),
+                        decoration: InputDecoration(
+                          labelText: 'Select Grade',
+                          border: OutlineInputBorder(),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -125,14 +131,17 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                             selectedClass = newValue;
                           });
                         },
-                        decoration: InputDecoration(labelText: 'Select Class'),
+                        decoration: InputDecoration(
+                          labelText: 'Select Class',
+                          border: OutlineInputBorder(),
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
-
-                // Dropdown for Content Type
+                SizedBox(height: 20),
                 DropdownButtonFormField<String>(
                   value: selectedContentType,
                   items: contentTypes.map((String value) {
@@ -144,41 +153,54 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                       selectedContentType = newValue;
                     });
                   },
-                  decoration: InputDecoration(labelText: 'Select Content Type'),
+                  decoration: InputDecoration(
+                    labelText: 'Select Content Type',
+                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
                 ),
-
-                // Heading TextField
+                SizedBox(height: 20),
                 TextField(
                   controller: _headingController,
-                  decoration: InputDecoration(labelText: 'Heading'),
+                  decoration: InputDecoration(
+                    labelText: 'Heading',
+                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
                 ),
-
-                // Body TextField
-                SizedBox(height: 10),
+                SizedBox(height: 20),
                 TextField(
                   controller: _bodyController,
-                  decoration: InputDecoration(labelText: 'Body'),
+                  decoration: InputDecoration(
+                    labelText: 'Body',
+                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                  maxLines: 5, // Allow multiple lines
                 ),
-
-                // Image Picker
-                SizedBox(height: 30),
-                _image != null
-                    ? Image.file(_image!,
-                        height: 300, width: 300, fit: BoxFit.cover)
-                    : TextButton.icon(
-                        icon: Icon(Icons.photo),
-                        label: Text('Add Photo'),
-                        onPressed: _pickImage, // Open image picker
-                      ),
-
-                // Action buttons (Cancel and Create Post)
+                SizedBox(height: 20),
+                Center(
+                  child: _image != null
+                      ? Image.file(_image!,
+                          height: 300, width: 300, fit: BoxFit.cover)
+                      : TextButton.icon(
+                          icon: Icon(Icons.photo, color: Colors.blue),
+                          label: Text('Add Photo',
+                              style: TextStyle(color: Colors.blue)),
+                          onPressed: _pickImage,
+                        ),
+                ),
                 SizedBox(height: 30),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(),
-                      child: Text('Cancel'),
+                      child:
+                          Text('Cancel', style: TextStyle(color: Colors.red)),
                     ),
                     ElevatedButton(
                       onPressed: () {
@@ -187,15 +209,13 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                           ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text(validationError)));
                         } else {
-                          // Dispatch CreatePost event with the selected image
                           context.read<PostBloc>().add(CreatePost(
                                 heading: _headingController.text,
                                 body: _bodyController.text,
                                 contentType: selectedContentType!,
                                 classId: selectedClass!,
                                 schoolId: schoolId,
-                                contentPicture:
-                                    _image, // Pass the selected image
+                                contentPicture: _image,
                               ));
                         }
                       },
