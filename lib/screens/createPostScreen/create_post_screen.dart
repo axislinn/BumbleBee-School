@@ -78,7 +78,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Create Post', style: TextStyle(color: Colors.white)),
-          backgroundColor: Colors.blueAccent,
+          backgroundColor: Colors.grey,
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () => Navigator.of(context).pop(),

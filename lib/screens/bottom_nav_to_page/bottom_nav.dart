@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 
 class BottomNav extends StatelessWidget {
-  late final int selectedIndex;
-  late final Function(int) onItemTapped;
+  final int selectedIndex;
+  final Function(int) onItemTapped;
 
-  //BottomNav({required this.selectedIndex, required this.onItemTapped, required int currentIndex, required void Function(int index) onTap});
+  const BottomNav({
+    Key? key,
+    required this.selectedIndex,
+    required this.onItemTapped,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: selectedIndex,
       onTap: onItemTapped,
-      items: const [
+      backgroundColor: Colors.blue, // Set background color
+      selectedItemColor: Colors.black, // Color for the active item
+      unselectedItemColor: Colors.grey, // Color for inactive items
+      items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Home',
@@ -22,15 +29,13 @@ class BottomNav extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.notifications),
-          label: 'Notification',
+          label: 'Notifications',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.class_rounded),
+          icon: Icon(Icons.class_),
           label: 'Class',
         ),
       ],
-      selectedItemColor: Colors.blueAccent,
-      unselectedItemColor: Colors.grey,
     );
   }
 }
