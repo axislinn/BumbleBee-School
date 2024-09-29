@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bumblebee/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -64,11 +65,17 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             builder: (context) => Center(child: CircularProgressIndicator()),
           );
         } else if (state is PostSuccess) {
-          Navigator.of(context).pop();
+          Navigator.of(context).pop(); // Close the progress dialog
+
+          // After the post is created successfully, navigate to the home screen
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+          );
+
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Post created successfully!')));
         } else if (state is PostFailure) {
-          Navigator.of(context).pop();
+          Navigator.of(context).pop(); // Close the progress dialog
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text('Failed to create post')));
         }
