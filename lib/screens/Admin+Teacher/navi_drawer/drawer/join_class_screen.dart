@@ -55,7 +55,8 @@ Widget build(BuildContext context) {
                   final newClass = Class(
                     id: '',
                     className: classNameController.text,
-                    grade: gradeController.text,
+                    grade: gradeController.text, 
+                    classCode: '', school: '', students: [], teachers: [], guardians: [], announcements: [],
                   );
                   context.read<ClassBloc>().add(CreateClass(newClass));
                   Navigator.of(context).pop();

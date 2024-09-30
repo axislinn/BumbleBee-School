@@ -1,6 +1,7 @@
 import 'package:bumblebee/bloc/Admin+Teacher/classes/create_edit_bloc/class_bloc.dart';
 import 'package:bumblebee/bloc/Admin/school_register_bloc/school_register_bloc.dart';
 import 'package:bumblebee/data/repositories/Admin+Teacher/class_repository.dart';
+import 'package:bumblebee/data/repositories/Admin+Teacher/user_repository.dart';
 import 'package:bumblebee/data/repositories/Admin/school_repository.dart';
 import 'package:bumblebee/screens/Admin/Admin_home.dart';
 import 'package:bumblebee/screens/Admin/register_school.dart';
@@ -57,7 +58,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 void main() {
   runApp(
     BlocProvider(
-      create: (context) => ClassBloc(ClassRepository()),
+      create: (context) => ClassBloc(ClassRepository(), UserRepository()),
       child: MyApp(),
     ),
   );
