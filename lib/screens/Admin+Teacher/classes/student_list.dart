@@ -1,7 +1,9 @@
 import 'package:bumblebee/bloc/Admin+Teacher/classes/create_edit_bloc/class_bloc.dart';
 import 'package:bumblebee/bloc/Admin+Teacher/classes/create_edit_bloc/class_event.dart';
 import 'package:bumblebee/bloc/Admin+Teacher/classes/create_edit_bloc/class_state.dart';
+import 'package:bumblebee/bloc/Admin+Teacher/classes/student_bloc/student_bloc.dart';
 import 'package:bumblebee/data/repositories/Admin+Teacher/class_repository.dart';
+import 'package:bumblebee/data/repositories/Admin+Teacher/student_repository.dart';
 import 'package:bumblebee/data/repositories/Admin+Teacher/user_repository.dart';
 import 'package:bumblebee/models/Admin+Teacher/student_model.dart';
 import 'package:bumblebee/screens/Admin+Teacher/bottom_nav/bottom_nav.dart';
@@ -21,23 +23,23 @@ class StudentList extends StatefulWidget {
 }
 
 class _StudentListState extends State<StudentList> {
-  late ClassBloc _classBloc;
+  late StudentBloc _studentBloc;
 
   @override
   void initState() {
     super.initState();
-    _classBloc = ClassBloc(ClassRepository(), UserRepository());
+    _studentBloc = StudentBloc(ClassRepository(), UserRepository(), StudentRepository());
     _fetchStudents();
   }
 
   void _fetchStudents() {
-    _classBloc.add(FetchStudentsEvent(widget.classId));
+    _studentBloc.add(FetchStudentsEvent(widget.classId));
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ClassBloc>.value(
-      value: _classBloc,
+    return BlocProvider<StudentBloc>.value(
+      value: _studentBloc,
       child: Scaffold(
         appBar: AppBar(
           title: Text('Students'),
@@ -47,7 +49,7 @@ class _StudentListState extends State<StudentList> {
           child: Icon(Icons.add),
           tooltip: 'Add Student',
         ),
-        body: BlocBuilder<ClassBloc, ClassState>(
+        body: BlocBuilder<StudentBloc, StudentState>(
           builder: (context, state) {
             if (state is StudentsLoadingState) {
               return _buildLoadingIndicator();
@@ -93,35 +95,43 @@ class _StudentListState extends State<StudentList> {
     return Center(child: Text('There are no students in this class.'));
   }
 
-  void _navigateToAddStudentToClass() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => AddStudentToClass(classId: widget.classId),
+void _navigateToAddStudentToClass() {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => BlocProvider<StudentBloc>(
+        create: (context) => StudentBloc(ClassRepository(), UserRepository(), StudentRepository()),
+        child: AddStudentToClass(classId: widget.classId),
       ),
-    );
-  }
+    ),
+  );
+}
+
 
   void _navigateToStudentDetail(String name, String dob, List<String> guardians, String classId, String studentId) async {
     print("student_list.dart This is $studentId & $name  & $dob");
     Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => StudentDetail(
-          name: name,
-          dob: dob,
-          guardians: guardians,
-          classId: classId,
-          studentId: studentId,
-        ),
+  context,
+  MaterialPageRoute(
+    builder: (_) => BlocProvider<StudentBloc>(
+      create: (context) => StudentBloc(ClassRepository(), UserRepository(), StudentRepository()),
+      child: StudentDetail(
+        name: name,
+        dob: dob,
+        guardians: guardians,
+        classId: classId,
+        studentId: studentId,
       ),
-    );
+    ),
+  ),
+);
+
 
   }
 
   @override
   void dispose() {
-    _classBloc.close();
+    _studentBloc.close();
     super.dispose();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:bumblebee/bloc/Admin+Teacher/classes/create_edit_bloc/class_bloc.dart';
 import 'package:bumblebee/bloc/Admin+Teacher/classes/create_edit_bloc/class_event.dart';
 import 'package:bumblebee/bloc/Admin+Teacher/classes/create_edit_bloc/class_state.dart';
+import 'package:bumblebee/bloc/Admin+Teacher/classes/student_bloc/student_bloc.dart';
 import 'package:bumblebee/screens/Admin+Teacher/bottom_nav/bottom_nav.dart';
 import 'package:bumblebee/screens/Admin+Teacher/navi_drawer/navi_drawer_screen.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +33,8 @@ class _StudentDetailState extends State<StudentDetail> {
     super.initState();
     
     // Trigger event to fetch guardians and pending requests when the widget is initialized
-    BlocProvider.of<ClassBloc>(context).add(FetchGuardiansEvent(widget.guardians));
-    BlocProvider.of<ClassBloc>(context).add(FetchPendingRequestsEvent(widget.classId, widget.studentId));
+    BlocProvider.of<StudentBloc>(context).add(FetchGuardiansEvent(widget.guardians));
+    BlocProvider.of<StudentBloc>(context).add(FetchPendingRequestsEvent(widget.classId, widget.studentId));
   }
 
   @override
@@ -70,7 +71,7 @@ class _StudentDetailState extends State<StudentDetail> {
                   ),
 
                   // Second Tab: Guardians List
-                  BlocBuilder<ClassBloc, ClassState>(builder: (context, state) {
+                  BlocBuilder<StudentBloc, StudentState>(builder: (context, state) {
                     if (state is GuardiansLoadingState || state is PendingRequestsLoadingState) {
                       return const Center(child: CircularProgressIndicator()); // Show loading indicator
                     } else if (state is GuardiansErrorState) {
@@ -110,7 +111,7 @@ class _StudentDetailState extends State<StudentDetail> {
                                   ),
 
                             // Display Pending Requests
-                            BlocBuilder<ClassBloc, ClassState>(builder: (context, state) {
+                            BlocBuilder<StudentBloc, StudentState>(builder: (context, state) {
                               print("student_detail.dart this is not loaded state");
                               if (state is PendingRequestsLoadedState) {
                                 print("student_detail.dart this is  loaded state");

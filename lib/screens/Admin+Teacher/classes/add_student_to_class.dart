@@ -1,17 +1,22 @@
-import 'package:bumblebee/bloc/Admin+Teacher/classes/create_edit_bloc/class_bloc.dart';
-import 'package:bumblebee/bloc/Admin+Teacher/classes/create_edit_bloc/class_event.dart';
-import 'package:bumblebee/bloc/Admin+Teacher/classes/create_edit_bloc/class_state.dart';
-import 'package:bumblebee/componemts/MyButton.dart';
-import 'package:bumblebee/componemts/MyTextField.dart';
+import 'package:bumblebee/bloc/Admin+Teacher/classes/student_bloc/student_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart'; // For formatting the selected date
 
-class AddStudentToClass extends StatelessWidget {
+class AddStudentToClass extends StatefulWidget {
   final String classId;
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _dobController = TextEditingController();
 
   AddStudentToClass({required this.classId});
+
+  @override
+  _AddStudentToClassState createState() => _AddStudentToClassState();
+}
+
+class _AddStudentToClassState extends State<AddStudentToClass> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _dobController = TextEditingController();
+  bool _isButtonDisabled = false;
+  DateTime? _selectedDate;
 
   @override
   Widget build(BuildContext context) {
@@ -21,40 +26,64 @@ class AddStudentToClass extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: BlocListener<ClassBloc, ClassState>(
+        child: BlocListener<StudentBloc, StudentState>(
           listener: (context, state) {
-            // Handle success and error states
             if (state is AddStudentSuccessState) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text('Student added successfully!'),
               ));
               _nameController.clear(); // Clear fields
               _dobController.clear();
+              setState(() {
+                _isButtonDisabled = false;
+              });
             } else if (state is AddStudentErrorState) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text('Error adding student: ${state.message}'),
               ));
+              setState(() {
+                _isButtonDisabled = false;
+              });
             }
           },
           child: Column(
             children: [
-              MyTextField(
-                hintText: "Student Name",
-                obscureText: false,
+              TextField(
+                decoration: InputDecoration(labelText: 'Student name'),
                 controller: _nameController,
               ),
-
               SizedBox(height: 20),
-
-              MyTextField(
-                hintText: "Date of Birth",
-                obscureText: false,
-                controller: _dobController,
+              GestureDetector(
+                onTap: () => _selectDate(context),
+                child: AbsorbPointer(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Date of birth',
+                    ),
+                    controller: _dobController,
+                  ),
+                ),
               ),
-
               SizedBox(height: 20),
-
-              MyButton(onTap: () => _addStudent(context), btnText: "Add Student"),
+              ElevatedButton(
+                onPressed: _isButtonDisabled
+                    ? null
+                    : () {
+                        setState(() {
+                          _isButtonDisabled = true;
+                        });
+                        _addStudent(context);
+                      },
+                child: _isButtonDisabled
+                    ? SizedBox(
+                        height: 16,
+                        width: 16,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                        ),
+                      )
+                    : Text('Add Student'),
+              ),
             ],
           ),
         ),
@@ -62,17 +91,36 @@ class AddStudentToClass extends StatelessWidget {
     );
   }
 
-  // Function to add student
   void _addStudent(BuildContext context) {
     String studentName = _nameController.text;
     String dob = _dobController.text;
 
     if (studentName.isNotEmpty && dob.isNotEmpty) {
-      context.read<ClassBloc>().add(AddStudentEvent(classId, studentName, dob));
+      context
+          .read<StudentBloc>()
+          .add(AddStudentEvent(widget.classId, studentName, dob));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Please enter valid details'),
       ));
+      setState(() {
+        _isButtonDisabled = false;
+      });
+    }
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate ?? DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+        _dobController.text = DateFormat('yyyy-MM-dd').format(picked);
+      });
     }
   }
 }
