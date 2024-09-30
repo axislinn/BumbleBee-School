@@ -12,7 +12,7 @@ class CreatePost extends PostEvent {
   final String contentType;
   final String classId;
   final String schoolId;
-  final File? contentPictures; // Add this for the image file
+  final List<File> contentPictures; // Now accepts multiple images
 
   CreatePost({
     required this.heading,
@@ -20,7 +20,7 @@ class CreatePost extends PostEvent {
     required this.contentType,
     required this.classId,
     required this.schoolId,
-    this.contentPictures, // Optionally pass an image file here
+    required this.contentPictures, // Optionally pass an image file here
   });
 
   @override

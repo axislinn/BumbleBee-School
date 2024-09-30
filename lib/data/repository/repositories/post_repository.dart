@@ -1,39 +1,45 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:bumblebee/models/post_model.dart';
-import 'package:path/path.dart'; // For getting filename from the path
+import 'package:path/path.dart';
+
+class ApiResponse {
+  final bool success;
+  final String? message;
+
+  ApiResponse({required this.success, this.message});
+}
 
 class PostRepository {
-  final String baseUrl =
-      'https://bumblebeeflutterdeploy-production.up.railway.app';
+  Future<ApiResponse> createPost(PostModel post, String schoolId, String token,
+      List<String> imagePaths) async {
+    final url =
+        'https://bumblebeeflutterdeploy-production.up.railway.app/api/posts/create'; // Replace with your actual API URL
+    final request = http.MultipartRequest('POST', Uri.parse(url));
 
-  Future<ApiResponse> createPost(
-      PostModel post, String schoolId, String token) async {
-    final url = Uri.parse('$baseUrl/api/posts/create');
+    // Set headers for the request
+    request.headers['Authorization'] = 'Bearer $token';
+    request.fields['schoolId'] = schoolId;
+    request.fields['heading'] = post.heading;
+    if (post.body != null) {
+      request.fields['body'] = post.body!;
+    }
+    request.fields['contentType'] = post.contentType;
+    if (post.classId != null) {
+      request.fields['classId'] = post.classId;
+    }
+
+    // Add each image file to the request
+    for (var imagePath in imagePaths) {
+      var picture = await http.MultipartFile.fromPath(
+        'contentPictures', // Backend field for the images
+        imagePath, // Get the path of each file
+        filename: basename(imagePath), // Get the filename
+      );
+      request.files.add(picture);
+    }
 
     try {
-      var request = http.MultipartRequest('POST', url);
-
-      // Add headers
-      request.headers['Authorization'] = 'Bearer $token';
-
-      // Add text fields (PostModel data)
-      request.fields['heading'] = post.heading;
-      request.fields['body'] = post.body!;
-      request.fields['contentType'] = post.contentType;
-      request.fields['classId'] = post.classId;
-      request.fields['schoolId'] = post.schoolId;
-
-      // Add image file if it exists
-      if (post.contentPictures != null) {
-        var picture = await http.MultipartFile.fromPath(
-          'contentPictures', // Backend field for the image
-          post.contentPictures!.path,
-          filename: basename(post.contentPictures!.path), // Get filename
-        );
-        request.files.add(picture);
-      }
-
       // Send the request
       var response = await request.send();
 
@@ -43,26 +49,28 @@ class PostRepository {
 
       // Log the response
       print("HTTP Status Code: ${response.statusCode}");
-      print("Response Body: $respStr");
+      print(
+          "Response Body: $respStr"); // Log the full response body for debugging
 
+      // Check for success
       if (response.statusCode == 200 || response.statusCode == 201) {
+        // Extract success and message from the response
         return ApiResponse(
-            success: jsonResponse['con'], message: jsonResponse['msg']);
+          success: jsonResponse['con'] ?? false, // Capture success from 'con'
+          message: jsonResponse['msg'], // Capture message from 'msg'
+        );
       } else {
+        // Log the entire jsonResponse on failure
+        print("Failure Response: $jsonResponse"); // Log failure details
         return ApiResponse(
-            success: false,
-            message: jsonResponse['msg'] ?? 'Failed to create post');
+          success: false,
+          message: jsonResponse['msg'] ??
+              'Failed to create post', // Fallback message
+        );
       }
     } catch (e) {
       print("HTTP error occurred: $e");
       return ApiResponse(success: false, message: 'An error occurred: $e');
     }
   }
-}
-
-class ApiResponse {
-  final bool success;
-  final String? message;
-
-  ApiResponse({required this.success, this.message});
 }

@@ -3,9 +3,9 @@ import 'dart:io';
 class PostModel {
   final String heading;
   final String? body; // Optional field for post content
-  final File? contentPictures; // Optional field for content image
+  final List<File>? contentPictures; // Changed to a list for multiple images
   final String contentType; // Required field for content type
-  final int? reactions; // Optional field for reactions, now an int
+  final int? reactions; // Optional field for reactions
   final String classId; // Required field for class ID
   final String schoolId; // Required field for school ID
   final DateTime? createdAt; // Optional field for creation date
@@ -15,7 +15,7 @@ class PostModel {
     this.body,
     this.contentPictures,
     required this.contentType,
-    this.reactions, // Optional field
+    this.reactions,
     required this.classId,
     required this.schoolId,
     this.createdAt,
@@ -26,11 +26,11 @@ class PostModel {
     return PostModel(
       heading: json['heading'] ?? '', // Default to empty string if null
       body: json['body'], // No default needed
-      contentPictures: json['contentPictures'], // No default needed
+      contentPictures: json['contentPictures'] != null
+          ? List<File>.from(json['contentPictures'].map((file) => File(file)))
+          : null, // Convert list of file paths to List<File>
       contentType: json['contentType'] ?? '', // Default to empty string if null
-      reactions: json['reactions'] != null
-          ? json['reactions'] as int
-          : null, // Default to null if not provided
+      reactions: json['reactions'] != null ? json['reactions'] as int : null,
       classId: json['classId'] ?? '', // Default to empty string if null
       schoolId: json['schoolId'] ?? '', // Default to empty string if null
       createdAt: json['createdAt'] != null
@@ -44,7 +44,9 @@ class PostModel {
     return {
       'heading': heading,
       'body': body,
-      'contentPictures': contentPictures,
+      'contentPictures': contentPictures
+          ?.map((file) => file.path)
+          .toList(), // Convert List<File> to list of paths
       'contentType': contentType,
       'reactions': reactions, // Send as integer or null
       'classId': classId,

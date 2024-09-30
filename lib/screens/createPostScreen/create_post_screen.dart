@@ -17,24 +17,27 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   String? selectedClass;
   String? selectedGrade;
   String? selectedContentType;
-  File? _image;
+  List<File> _images = []; // List to store multiple images
 
   final List<String> grades = ['Grade 1', 'Grade 2', 'Grade 3'];
   final List<String> classes = ['Class A', 'Class B', 'Class C'];
   final List<String> contentTypes = ['feed', 'announcement'];
   final ImagePicker _picker = ImagePicker();
 
-  final String schoolId = 'your_school_id_here';
+  final String schoolId = 'your_school_id_here'; // Set your school ID here
 
+  // Pick image from gallery
   Future<void> _pickImage() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
+    final pickedFiles =
+        await _picker.pickMultiImage(); // Allow picking multiple images
+    if (pickedFiles != null) {
       setState(() {
-        _image = File(pickedFile.path);
+        _images = pickedFiles.map((file) => File(file.path)).toList();
       });
     }
   }
 
+  // Validate form fields
   String? _validateForm() {
     if (_headingController.text.isEmpty) {
       return 'Please enter a heading';
@@ -87,6 +90,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Grade and Class selection
                 Text('Select Grade and Class',
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
@@ -137,6 +141,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   ],
                 ),
                 SizedBox(height: 20),
+
+                // Content type selection
                 DropdownButtonFormField<String>(
                   value: selectedContentType,
                   items: contentTypes.map((String value) {
@@ -156,6 +162,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   ),
                 ),
                 SizedBox(height: 20),
+
+                // Heading input
                 TextField(
                   controller: _headingController,
                   decoration: InputDecoration(
@@ -166,6 +174,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   ),
                 ),
                 SizedBox(height: 20),
+
+                // Body input
                 TextField(
                   controller: _bodyController,
                   decoration: InputDecoration(
@@ -177,18 +187,28 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   maxLines: 2, // Allow multiple lines
                 ),
                 SizedBox(height: 20),
+
+                // Image display or picker
                 Center(
-                  child: _image != null
-                      ? Image.file(_image!,
-                          height: 200, width: 400, fit: BoxFit.cover)
+                  child: _images.isNotEmpty
+                      ? Wrap(
+                          spacing: 10,
+                          runSpacing: 10,
+                          children: _images
+                              .map((image) => Image.file(image,
+                                  height: 100, width: 100, fit: BoxFit.cover))
+                              .toList(),
+                        )
                       : TextButton.icon(
                           icon: Icon(Icons.photo, color: Colors.blue),
-                          label: Text('Add Photo',
+                          label: Text('Add Photos',
                               style: TextStyle(color: Colors.blue)),
                           onPressed: _pickImage,
                         ),
                 ),
                 SizedBox(height: 30),
+
+                // Action buttons
                 Row(
                   mainAxisAlignment:
                       MainAxisAlignment.end, // Align buttons to the right
@@ -196,21 +216,18 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                     ElevatedButton(
                       onPressed: () => Navigator.of(context).pop(),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors
-                            .red, // Background color for the cancel button
+                        backgroundColor: Colors.red, // Cancel button color
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(8), // Rounded corners
+                          borderRadius: BorderRadius.circular(8),
                         ),
                       ),
                       child:
                           Text('Cancel', style: TextStyle(color: Colors.white)),
                     ),
-                    SizedBox(width: 10), // Space between the buttons
+                    SizedBox(width: 10), // Space between buttons
                     BlocBuilder<PostBloc, PostState>(
                       builder: (context, state) {
-                        // Disable button when loading
                         return ElevatedButton(
                           onPressed: state is PostLoading
                               ? null // Disable button if in loading state
@@ -227,17 +244,16 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                           contentType: selectedContentType!,
                                           classId: selectedClass!,
                                           schoolId: schoolId,
-                                          contentPictures: _image,
+                                          contentPictures:
+                                              _images, // Pass multiple images
                                         ));
                                   }
                                 },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors
-                                .blue, // Background color for the create post button
+                            backgroundColor: Colors.blue,
                             padding: EdgeInsets.symmetric(horizontal: 20),
                             shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(8), // Rounded corners
+                              borderRadius: BorderRadius.circular(8),
                             ),
                           ),
                           child: state is PostLoading
