@@ -3,7 +3,7 @@ import 'dart:io';
 class PostModel {
   final String heading;
   final String? body; // Optional field for post content
-  final File? contentPicture; // Optional field for content image
+  final File? contentPictures; // Optional field for content image
   final String contentType; // Required field for content type
   final int? reactions; // Optional field for reactions, now an int
   final String classId; // Required field for class ID
@@ -13,7 +13,7 @@ class PostModel {
   PostModel({
     required this.heading,
     this.body,
-    this.contentPicture,
+    this.contentPictures,
     required this.contentType,
     this.reactions, // Optional field
     required this.classId,
@@ -26,7 +26,7 @@ class PostModel {
     return PostModel(
       heading: json['heading'] ?? '', // Default to empty string if null
       body: json['body'], // No default needed
-      contentPicture: json['contentPicture'], // No default needed
+      contentPictures: json['contentPictures'], // No default needed
       contentType: json['contentType'] ?? '', // Default to empty string if null
       reactions: json['reactions'] != null
           ? json['reactions'] as int
@@ -44,7 +44,7 @@ class PostModel {
     return {
       'heading': heading,
       'body': body,
-      'contentPicture': contentPicture,
+      'contentPictures': contentPictures,
       'contentType': contentType,
       'reactions': reactions, // Send as integer or null
       'classId': classId,

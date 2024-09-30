@@ -25,11 +25,11 @@ class PostRepository {
       request.fields['schoolId'] = post.schoolId;
 
       // Add image file if it exists
-      if (post.contentPicture != null) {
+      if (post.contentPictures != null) {
         var picture = await http.MultipartFile.fromPath(
-          'contentPicture', // Backend field for the image
-          post.contentPicture!.path,
-          filename: basename(post.contentPicture!.path), // Get filename
+          'contentPictures', // Backend field for the image
+          post.contentPictures!.path,
+          filename: basename(post.contentPictures!.path), // Get filename
         );
         request.files.add(picture);
       }

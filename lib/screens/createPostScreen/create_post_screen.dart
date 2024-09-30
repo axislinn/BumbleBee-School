@@ -5,7 +5,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:bumblebee/bloc/post_bloc/post_bloc.dart';
 import 'package:bumblebee/bloc/post_bloc/post_event.dart';
 import 'package:bumblebee/bloc/post_bloc/post_state.dart';
-import 'package:bumblebee/screens/home/home_screen.dart';
 
 class CreatePostScreen extends StatefulWidget {
   @override
@@ -56,23 +55,21 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   Widget build(BuildContext context) {
     return BlocListener<PostBloc, PostState>(
       listener: (context, state) {
-        if (state is PostLoading) {
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => Center(child: CircularProgressIndicator()),
-          );
-        } else if (state is PostSuccess) {
-          Navigator.of(context).pop(); // Close the progress dialog
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomeScreen()),
-          );
+        if (state is PostSuccess) {
+          // Show success message and navigate back
           ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Post created successfully!')));
+            SnackBar(content: Text('Post created successfully!')),
+          );
+          // Navigate back to home after a brief delay
+          Future.delayed(Duration(seconds: 1), () {
+            Navigator.of(context)
+                .pop(); // Navigate back to the previous screen (home)
+          });
         } else if (state is PostFailure) {
-          Navigator.of(context).pop(); // Close the progress dialog
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text('Failed to create post')));
+          // Show failure message
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Failed to create post')),
+          );
         }
       },
       child: Scaffold(
@@ -93,9 +90,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 Text('Select Grade and Class',
                     style:
                         TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                SizedBox(
-                  height: 20,
-                ),
+                SizedBox(height: 20),
                 Row(
                   children: [
                     Expanded(
@@ -179,13 +174,13 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                     filled: true,
                     fillColor: Colors.white,
                   ),
-                  maxLines: 5, // Allow multiple lines
+                  maxLines: 2, // Allow multiple lines
                 ),
                 SizedBox(height: 20),
                 Center(
                   child: _image != null
                       ? Image.file(_image!,
-                          height: 300, width: 300, fit: BoxFit.cover)
+                          height: 200, width: 400, fit: BoxFit.cover)
                       : TextButton.icon(
                           icon: Icon(Icons.photo, color: Colors.blue),
                           label: Text('Add Photo',
@@ -195,31 +190,73 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 ),
                 SizedBox(height: 30),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment:
+                      MainAxisAlignment.end, // Align buttons to the right
                   children: [
-                    TextButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      child:
-                          Text('Cancel', style: TextStyle(color: Colors.red)),
-                    ),
                     ElevatedButton(
-                      onPressed: () {
-                        final validationError = _validateForm();
-                        if (validationError != null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(validationError)));
-                        } else {
-                          context.read<PostBloc>().add(CreatePost(
-                                heading: _headingController.text,
-                                body: _bodyController.text,
-                                contentType: selectedContentType!,
-                                classId: selectedClass!,
-                                schoolId: schoolId,
-                                contentPicture: _image,
-                              ));
-                        }
+                      onPressed: () => Navigator.of(context).pop(),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors
+                            .red, // Background color for the cancel button
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(8), // Rounded corners
+                        ),
+                      ),
+                      child:
+                          Text('Cancel', style: TextStyle(color: Colors.white)),
+                    ),
+                    SizedBox(width: 10), // Space between the buttons
+                    BlocBuilder<PostBloc, PostState>(
+                      builder: (context, state) {
+                        // Disable button when loading
+                        return ElevatedButton(
+                          onPressed: state is PostLoading
+                              ? null // Disable button if in loading state
+                              : () {
+                                  final validationError = _validateForm();
+                                  if (validationError != null) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text(validationError)),
+                                    );
+                                  } else {
+                                    context.read<PostBloc>().add(CreatePost(
+                                          heading: _headingController.text,
+                                          body: _bodyController.text,
+                                          contentType: selectedContentType!,
+                                          classId: selectedClass!,
+                                          schoolId: schoolId,
+                                          contentPictures: _image,
+                                        ));
+                                  }
+                                },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors
+                                .blue, // Background color for the create post button
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(8), // Rounded corners
+                            ),
+                          ),
+                          child: state is PostLoading
+                              ? Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 2,
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text('Creating Post',
+                                        style: TextStyle(color: Colors.white)),
+                                  ],
+                                )
+                              : Text('Create Post',
+                                  style: TextStyle(color: Colors.white)),
+                        );
                       },
-                      child: Text('Create Post'),
                     ),
                   ],
                 ),
@@ -229,5 +266,12 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _headingController.dispose();
+    _bodyController.dispose();
+    super.dispose();
   }
 }

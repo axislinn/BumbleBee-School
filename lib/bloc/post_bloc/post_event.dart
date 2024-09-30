@@ -12,7 +12,7 @@ class CreatePost extends PostEvent {
   final String contentType;
   final String classId;
   final String schoolId;
-  final File? contentPicture; // Add this for the image file
+  final File? contentPictures; // Add this for the image file
 
   CreatePost({
     required this.heading,
@@ -20,10 +20,10 @@ class CreatePost extends PostEvent {
     required this.contentType,
     required this.classId,
     required this.schoolId,
-    this.contentPicture, // Optionally pass an image file here
+    this.contentPictures, // Optionally pass an image file here
   });
 
   @override
   List<Object?> get props =>
-      [heading, body, contentType, classId, schoolId, contentPicture];
+      [heading, body, contentType, classId, schoolId, contentPictures];
 }
