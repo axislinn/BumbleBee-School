@@ -40,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   _navigateToCreatePostScreen(context);
                 },
                 child: Icon(Icons.add),
+                backgroundColor: Colors.grey,
               ),
             )
           : null, // Don't show FAB on other pages
