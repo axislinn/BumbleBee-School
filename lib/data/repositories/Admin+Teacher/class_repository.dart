@@ -57,12 +57,12 @@ class ClassRepository {
 
 Future<void> editClass(Map<String, dynamic> updatedClassData, String token) async {
   final response = await http.put(
-    Uri.parse('$baseUrl/api/class/edit'), // Ensure you are calling the correct endpoint
+    Uri.parse('$baseUrl/api/class/edit'), 
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
     },
-    body: json.encode(updatedClassData), // Pass the map directly
+    body: json.encode(updatedClassData),
   );
 
   if (response.statusCode != 200) {

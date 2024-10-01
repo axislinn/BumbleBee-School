@@ -111,19 +111,19 @@ void _onFetchUser(FetchUserEvent event, Emitter<StudentState> emit) async {
   }
 }
 
-// Method to fetch guardians based on the list of IDs
+
 void _onFetchGuardians(FetchGuardiansEvent event, Emitter<StudentState> emit) async {
   emit(GuardiansLoadingState());
   List<UserModel> guardiansList = [];
 
   if (event.guardianIds.isEmpty) {
     emit(GuardiansLoadedState(guardiansList));
-    return;  // Exit early if there are no guardian IDs
+    return;  
   }
 
   for (String guardianId in event.guardianIds) {
     try {
-      UserModel guardian = await studentRepository.getUserById(guardianId);  // Use the instance
+      UserModel guardian = await studentRepository.getUserById(guardianId);  
       guardiansList.add(guardian);
       emit(GuardiansLoadedState(guardiansList));
     } catch (e) {
@@ -136,7 +136,7 @@ void _onFetchGuardians(FetchGuardiansEvent event, Emitter<StudentState> emit) as
 
   void _onFetchPendingRequests(FetchPendingRequestsEvent event, Emitter<StudentState> emit) async {
    print("Fetching pending requests for classId: ${event.classId}, studentId: ${event.studentId}");
-   emit(PendingRequestsLoadingState()); // Emit loading state
+   emit(PendingRequestsLoadingState()); 
    try {
      final token = await _getToken();
      print("got token $token");

@@ -1,4 +1,5 @@
 import 'package:bumblebee/bloc/Admin+Teacher/classes/student_bloc/student_bloc.dart';
+import 'package:bumblebee/screens/Admin+Teacher/classes/student_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -26,23 +27,21 @@ class _AddStudentToClassState extends State<AddStudentToClass> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: BlocListener<StudentBloc, StudentState>(
+        child:BlocListener<StudentBloc, StudentState>(
           listener: (context, state) {
             if (state is AddStudentSuccessState) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text('Student added successfully!'),
               ));
-              _nameController.clear(); // Clear fields
-              _dobController.clear();
-              setState(() {
-                _isButtonDisabled = false;
-              });
               
-              // Fetch the updated student list
               context.read<StudentBloc>().add(FetchStudentsEvent(widget.classId));
-              
-              // Optionally, navigate back or close the dialog
-              // Navigator.pop(context);
+              Navigator.of(context).pop();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => StudentList(classId: widget.classId), 
+                ),
+              );
             } else if (state is AddStudentErrorState) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text('Error adding student: ${state.message}'),
@@ -52,6 +51,7 @@ class _AddStudentToClassState extends State<AddStudentToClass> {
               });
             }
           },
+
           child: Column(
             children: [
               TextField(
