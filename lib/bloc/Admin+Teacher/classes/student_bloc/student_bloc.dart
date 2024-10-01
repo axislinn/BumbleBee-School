@@ -104,8 +104,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
 void _onFetchUser(FetchUserEvent event, Emitter<StudentState> emit) async {
   emit(UserLoadingState());
   try {
-    final userRepository = UserRepository();  // Create an instance
-    final user = await userRepository.getUserById(event.userId);  // Use the instance
+    final user = await studentRepository.getUserById(event.userId);  // Use the instance
     emit(UserLoadedState(user));
   } catch (e) {
     emit(UserErrorState(e.toString()));
@@ -122,11 +121,9 @@ void _onFetchGuardians(FetchGuardiansEvent event, Emitter<StudentState> emit) as
     return;  // Exit early if there are no guardian IDs
   }
 
-  final userRepository = UserRepository();  // Create an instance
-
   for (String guardianId in event.guardianIds) {
     try {
-      UserModel guardian = await userRepository.getUserById(guardianId);  // Use the instance
+      UserModel guardian = await studentRepository.getUserById(guardianId);  // Use the instance
       guardiansList.add(guardian);
       emit(GuardiansLoadedState(guardiansList));
     } catch (e) {

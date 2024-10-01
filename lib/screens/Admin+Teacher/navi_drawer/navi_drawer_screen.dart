@@ -1,12 +1,16 @@
+import 'package:bumblebee/bloc/Admin+Teacher/classes/create_edit_bloc/class_bloc.dart';
 import 'package:bumblebee/data/repositories/Admin+Teacher/class_repository.dart';
-
-import '../home/home_screen.dart';
+import 'package:bumblebee/data/repositories/Admin+Teacher/user_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart'; 
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'drawer/info_screen.dart';
 import 'drawer/join_class_screen.dart';
 import 'drawer/options_screen.dart';
+import '../home/home_screen.dart';
+import '../auth/loginscreen.dart'; 
 
 class NaviDrawer extends StatefulWidget {
   const NaviDrawer({super.key});
@@ -17,15 +21,23 @@ class NaviDrawer extends StatefulWidget {
 
 class _NaviDrawerState extends State<NaviDrawer> {
   File? _profileImage;
+  final FlutterSecureStorage storage = FlutterSecureStorage(); // Initialize storage
 
-  Future<void> _pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      setState(() {
-        _profileImage = File(image.path);
-      });
-    }
+  // Future<void> _pickImage() async {
+  //   final ImagePicker picker = ImagePicker();
+  //   final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+  //   if (image != null) {
+  //     setState(() {
+  //       _profileImage = File(image.path);
+  //     });
+  //   }
+  // }
+
+  void _signOut() async {
+    await storage.delete(key: 'userToken'); 
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => LoginScreen()), 
+    );
   }
 
   @override
@@ -86,8 +98,10 @@ class _NaviDrawerState extends State<NaviDrawer> {
               Navigator.pop(context);
               Navigator.of(context).pushAndRemoveUntil(
                 PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) => JoinClassPage(),
-
+                  pageBuilder: (context, animation, secondaryAnimation) => BlocProvider<ClassBloc>(
+                    create: (context) => ClassBloc(ClassRepository(), UserRepository()),
+                    child: JoinClassPage(),
+                  ),
                   transitionsBuilder: (context, animation, secondaryAnimation, child) {
                     return child;
                   },
@@ -96,6 +110,7 @@ class _NaviDrawerState extends State<NaviDrawer> {
               );
             },
           ),
+
           ListTile(
             leading: const Icon(Icons.settings),
             title: const Text('Settings'),
@@ -103,7 +118,7 @@ class _NaviDrawerState extends State<NaviDrawer> {
               Navigator.pop(context);
               Navigator.of(context).pushAndRemoveUntil(
                 PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) => const Settings(),
+                  pageBuilder: (context, animation, secondaryAnimation) => const setting(),
                   transitionsBuilder: (context, animation, secondaryAnimation, child) {
                     return child;
                   },
@@ -126,6 +141,15 @@ class _NaviDrawerState extends State<NaviDrawer> {
                 ),
                 (route) => true,
               );
+            },
+          ),
+          const Divider(), 
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text('Sign Out'),
+            onTap: () {
+
+              _signOut(); 
             },
           ),
         ],

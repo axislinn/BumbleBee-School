@@ -124,7 +124,7 @@ Future<List<StudentModel>> getStudentsByClassId(String token, String classId) as
       return classesList.map((json) => StudentModel.fromJson(json)).toList();
   }
 
-  // Add a student to a class
+
 Future<void> addStudentToClass(String token, String classId, String studentName, String studentDOB) async {
   final url = Uri.parse('$baseUrl/api/student/add/$classId');
 
@@ -151,8 +151,6 @@ Future<void> addStudentToClass(String token, String classId, String studentName,
 }
 
 
-
-// Get pending guardian requests
 Future<List<UserModel>> getPendingGuardianRequests(String token, String classId, String studentId) async {
   final url = Uri.parse('$baseUrl/api/request/read?classId=$classId&studentId=$studentId'); 
 
@@ -187,5 +185,45 @@ Future<List<UserModel>> getPendingGuardianRequests(String token, String classId,
 }
 
 
+// Method to fetch user by userId
+  Future<UserModel> getUserById(String userId) async {
+    final url = Uri.parse('$baseUrl/api/user/$userId');
+    print('Fetching user data for userId: $userId');
 
+    // need make token local feature
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('userToken');
+
+    if (token == null) {
+      throw Exception('No token found.');
+    }
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body);
+      print('Parsed JSON response: $jsonResponse');
+
+      if (jsonResponse.containsKey('con') && jsonResponse['con'] == true) {
+        // Parse and return the user info
+        return UserModel.fromJson(jsonResponse['result']);
+      } else {
+        print('Failed to fetch user info: ${jsonResponse['msg']}');
+        throw Exception('Failed to fetch user info: ${jsonResponse['msg']}');
+      }
+    } else {
+      print('HTTP error: ${response.statusCode}');
+      throw Exception('HTTP error: ${response.statusCode}');
+    }
+  }
 }

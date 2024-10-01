@@ -9,59 +9,10 @@ import 'package:bumblebee/screens/Admin+Teacher/auth/splashscreen.dart';
 import 'package:bumblebee/screens/Teacher/Teacher_home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
- // Adjust the import path if needed
-
-// void main() {
-//   runApp(MyApp());
-// }
- 
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: AdminHomePage(), // Make sure this screen exists and is correctly implemented
-//     );
-//   }
-// }
-
-
-// void main() {
-//   final ClassRepository classRepository = ClassRepository();
-
-//   runApp(
-//     MultiBlocProvider(
-//       providers: [
-//         BlocProvider(
-//           create: (context) => ClassBloc(classRepository),
-//         ),
-//       ],
-//       child: MyApp(),
-//     ),
-//   );
-// }
-
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Bumblebee',
-//       home: AdminHomePage(),
-//     );
-//   }
-// }
 
 
 void main() {
-  runApp(
-    BlocProvider(
-      create: (context) => ClassBloc(ClassRepository(), UserRepository()),
-      child: MyApp(),
-    ),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -69,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: AdminHomePage(), // Use AdminScreen or TeacherScreen as needed
+      home: SplashScreen(), 
     );
   }
 }

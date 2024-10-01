@@ -1,7 +1,7 @@
 import 'package:bumblebee/bloc/Admin+Teacher/classes/student_bloc/student_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart'; // For formatting the selected date
+import 'package:intl/intl.dart';
 
 class AddStudentToClass extends StatefulWidget {
   final String classId;
@@ -37,6 +37,12 @@ class _AddStudentToClassState extends State<AddStudentToClass> {
               setState(() {
                 _isButtonDisabled = false;
               });
+              
+              // Fetch the updated student list
+              context.read<StudentBloc>().add(FetchStudentsEvent(widget.classId));
+              
+              // Optionally, navigate back or close the dialog
+              // Navigator.pop(context);
             } else if (state is AddStudentErrorState) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text('Error adding student: ${state.message}'),

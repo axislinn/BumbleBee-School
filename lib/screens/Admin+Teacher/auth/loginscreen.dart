@@ -1,7 +1,5 @@
 import 'package:bumblebee/screens/Admin+Teacher/home/home_screen.dart';
 import 'package:bumblebee/screens/Admin+Teacher/role_selection/role_seletion.dart';
-import 'package:bumblebee/screens/Admin+Teacher/auth/signupscreen.dart';
-import 'package:bumblebee/screens/Admin/register_school.dart';
 import 'package:bumblebee/screens/Admin+Teacher/school_select.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,8 +9,6 @@ import 'package:bumblebee/bloc/Admin+Teacher/auth/login_bloc/login_state.dart';
 import 'package:bumblebee/data/repositories/Admin+Teacher/user_repository.dart';
 
 class LoginScreen extends StatelessWidget {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
   final UserRepository userRepository = UserRepository();
 
   @override
@@ -49,12 +45,18 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<LoginBloc, LoginState>(
-      listener: (context, state) {
-        if (state is LoginSuccess) {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => SchoolSelect()),
-          );
+    return BlocListener<LoginBloc, LoginState>(  
+  listener: (context, state) {  
+    if (state is LoginSuccess) {   
+      if (state.user.schools.isNotEmpty) {      
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      } else {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => SchoolSelect()),
+        );
+      }
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Welcome, ${state.user.userName}!')),
           );
