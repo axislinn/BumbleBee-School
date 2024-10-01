@@ -1,4 +1,3 @@
-// relationship is added for testing
 class UserModel {
   final String id;
   final String userName;
@@ -7,6 +6,8 @@ class UserModel {
   final String phone;
   final List<String> roles;
   final List<String> relationship;
+  final String token; // Add token field
+  final List<String> schools; // Add schools field
 
   UserModel({
     required this.id,
@@ -15,7 +16,9 @@ class UserModel {
     required this.profilePicture,
     required this.phone,
     required this.roles,
-    required this.relationship
+    required this.relationship,
+    required this.token, // Initialize token
+    required this.schools, // Initialize schools
   });
 
   // Convert a JSON map into a UserModel instance
@@ -27,7 +30,9 @@ class UserModel {
       profilePicture: json['profilePicture'] ?? '',
       phone: json['phone'] ?? '',
       roles: List<String>.from(json['roles'] ?? []), // Parse roles as List<String>
-      relationship: List<String>.from(json['relationship'] ?? []), // Parse roles as List<String>
+      relationship: List<String>.from(json['relationship'] ?? []), // Parse relationship as List<String>
+      token: json['token'] ?? '', // Handle token parsing
+      schools: List<String>.from(json['schools'] ?? []), // Parse schools as List<String>
     );
   }
 
@@ -40,7 +45,9 @@ class UserModel {
       'profilePicture': profilePicture,
       'phone': phone,
       'roles': roles,
-      'relationship': relationship
+      'relationship': relationship,
+      'token': token, // Include token in JSON
+      'schools': schools, // Include schools in JSON
     };
   }
 }

@@ -1,7 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:bumblebee/models/Admin+Teacher/user_model.dart';
-import 'package:equatable/equatable.dart';
-
 
 abstract class LoginState extends Equatable {
   @override
