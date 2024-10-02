@@ -12,7 +12,7 @@ class ApiResponse {
 
 class PostRepository {
   Future<ApiResponse> createPost(PostModel post, String schoolId, String token,
-      List<String> imagePaths) async {
+      List<String> imagePaths, List<String> documentPaths) async {
     final url =
         'https://bumblebeeflutterdeploy-production.up.railway.app/api/posts/create'; // Replace with your actual API URL
     final request = http.MultipartRequest('POST', Uri.parse(url));
@@ -37,6 +37,16 @@ class PostRepository {
         filename: basename(imagePath), // Get the filename
       );
       request.files.add(picture);
+    }
+
+    // Add each document file to the request
+    for (var documentPath in documentPaths) {
+      var document = await http.MultipartFile.fromPath(
+        'documents', // Backend field for the documents
+        documentPath, // Get the path of each file
+        filename: basename(documentPath), // Get the filename
+      );
+      request.files.add(document);
     }
 
     try {

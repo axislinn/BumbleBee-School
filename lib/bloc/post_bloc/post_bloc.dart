@@ -28,28 +28,26 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         return;
       }
 
-      // Create Post model with multiple images
+      // Create Post model with multiple images and documents
       final post = PostModel(
         heading: event.heading,
         body: event.body,
         contentType: event.contentType,
         classId: event.classId,
         schoolId: schoolId,
-        contentPictures:
-            event.contentPictures, // Now this handles multiple images
+        contentPictures: event.contentPictures, // Handle multiple images
       );
 
-      // Convert the images to a format suitable for the backend (e.g., base64 or multipart)
-      final List<String> imagePaths = [];
-      for (File image in event.contentPictures) {
-        // Convert the image file to a path or base64 as needed
-        // Here we assume it's just sending the path, modify if you need base64 or multipart
-        imagePaths.add(image.path); // Use actual conversion if needed
-      }
+      // Convert images and documents to paths for backend
+      final List<String> imagePaths =
+          event.contentPictures.map((image) => image.path).toList();
+      final List<String> documentPaths =
+          event.documents.map((document) => document.path).toList();
 
-      // Pass the image list to the repository along with the post data
-      final result =
-          await postRepository.createPost(post, schoolId, token, imagePaths);
+      // Pass images and documents to the repository
+      final result = await postRepository.createPost(post, schoolId, token,
+          imagePaths, documentPaths // Now passing documents as well
+          );
 
       // Log response for debugging
       print("Post creation response: ${result}");

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:bumblebee/bloc/post_bloc/post_bloc.dart';
 import 'package:bumblebee/bloc/post_bloc/post_event.dart';
 import 'package:bumblebee/bloc/post_bloc/post_state.dart';
@@ -18,6 +19,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   String? selectedGrade;
   String? selectedContentType;
   List<File> _images = []; // List to store multiple images
+  List<File> _documents = []; // List to store selected documents
 
   final List<String> grades = ['Grade 1', 'Grade 2', 'Grade 3'];
   final List<String> classes = ['Class A', 'Class B', 'Class C'];
@@ -26,7 +28,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
   final String schoolId = 'your_school_id_here'; // Set your school ID here
 
-  // Pick image from gallery
+  // Pick images from gallery
   Future<void> _pickImage() async {
     final pickedFiles =
         await _picker.pickMultiImage(); // Allow picking multiple images
@@ -34,6 +36,31 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       setState(() {
         _images = pickedFiles.map((file) => File(file.path)).toList();
       });
+    }
+  }
+
+// Pick documents using file picker
+  Future<void> _pickDocuments() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        allowMultiple: true,
+        type: FileType.custom,
+        allowedExtensions: ['pdf', 'doc', 'docx', 'xlsx'],
+      );
+
+      if (result != null && result.paths.isNotEmpty) {
+        setState(() {
+          _documents = result.paths.map((path) => File(path!)).toList();
+        });
+      } else {
+        print("No documents selected.");
+      }
+    } catch (e) {
+      print("Error picking documents: $e");
+      // You can also show an error message to the user here if needed
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error picking documents: $e')),
+      );
     }
   }
 
@@ -206,6 +233,40 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                           onPressed: _pickImage,
                         ),
                 ),
+                SizedBox(height: 20),
+
+                // Document picker
+                Center(
+                  child: _documents != null && _documents!.isNotEmpty
+                      ? Wrap(
+                          spacing: 10,
+                          runSpacing: 10,
+                          children: _documents!.map((document) {
+                            return Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.insert_drive_file,
+                                    color: Colors.green, size: 50),
+                                SizedBox(height: 5),
+                                Text(
+                                  document.path
+                                      .split('/')
+                                      .last, // Display the file name
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 12),
+                                ),
+                              ],
+                            );
+                          }).toList(),
+                        )
+                      : TextButton.icon(
+                          icon: Icon(Icons.upload_file, color: Colors.blue),
+                          label: Text('Add Documents',
+                              style: TextStyle(color: Colors.blue)),
+                          onPressed: _pickDocuments,
+                        ),
+                ),
+
                 SizedBox(height: 30),
 
                 // Action buttons
@@ -241,35 +302,27 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                                     context.read<PostBloc>().add(CreatePost(
                                           heading: _headingController.text,
                                           body: _bodyController.text,
-                                          contentType: selectedContentType!,
                                           classId: selectedClass!,
                                           schoolId: schoolId,
-                                          contentPictures:
-                                              _images, // Pass multiple images
+                                          contentType: selectedContentType!,
+                                          contentPictures: _images,
+                                          documents:
+                                              _documents!, // Include documents
                                         ));
                                   }
                                 },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
+                            backgroundColor: Colors.blue, // Submit button color
                             padding: EdgeInsets.symmetric(horizontal: 20),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
                           child: state is PostLoading
-                              ? Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    CircularProgressIndicator(
-                                      color: Colors.white,
-                                      strokeWidth: 2,
-                                    ),
-                                    SizedBox(width: 10),
-                                    Text('Creating Post',
-                                        style: TextStyle(color: Colors.white)),
-                                  ],
+                              ? CircularProgressIndicator(
+                                  color: Colors.white,
                                 )
-                              : Text('Create Post',
+                              : Text('Submit',
                                   style: TextStyle(color: Colors.white)),
                         );
                       },
@@ -282,12 +335,5 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _headingController.dispose();
-    _bodyController.dispose();
-    super.dispose();
   }
 }
