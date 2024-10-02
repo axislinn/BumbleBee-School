@@ -73,11 +73,12 @@ Future<void> editClass(Map<String, dynamic> updatedClassData, String token) asyn
 
 Future<void> deleteClass(String classId, String token) async {
   final response = await http.delete(
-    Uri.parse('$baseUrl/api/class/delete/$classId'),
+    Uri.parse('$baseUrl/api/class/delete'),
     headers: {
       'Authorization': 'Bearer $token',
       'Content-Type': 'application/json',
     },
+    body: json.encode({"classId" : '$classId'}),
   );
 
   if (response.statusCode == 200) {

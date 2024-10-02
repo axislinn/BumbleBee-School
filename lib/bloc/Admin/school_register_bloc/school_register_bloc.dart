@@ -29,9 +29,8 @@ Future<void> _onRegisterSchool(
       email: event.email,
     );
 
-    // Assuming the token is available (e.g., through a provider, shared preferences, etc.)
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('userToken'); // Retrieve your token dynamically in real cases
+    final token = prefs.getString('userToken'); 
 
     if (token == null) {
       throw Exception('Authentication token not found');

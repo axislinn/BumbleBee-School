@@ -108,29 +108,29 @@ class _settingState extends State<setting> {
             buildNotificationOption(
                 "Account Active", valNotify2, onChangeFunction2),
             SizedBox(height: 50),
-            Center(
-              child: OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
-                ),
-                onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()),
-                    (route) => false,
-                  );
-                },
-                child: Text(
-                  "SIGN OUT",
-                  style: TextStyle(
-                      fontSize: 16,
-                      letterSpacing: 2.2,
-                      color: Colors.black),
-                ),
-              ),
-            )
+            // Center(
+            //   child: OutlinedButton(
+            //     style: OutlinedButton.styleFrom(
+            //       padding: const EdgeInsets.symmetric(horizontal: 40),
+            //       shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(20)),
+            //     ),
+            //     onPressed: () {
+            //       Navigator.pushAndRemoveUntil(
+            //         context,
+            //         MaterialPageRoute(builder: (context) => LoginScreen()),
+            //         (route) => false,
+            //       );
+            //     },
+            //     child: Text(
+            //       "SIGN OUT",
+            //       style: TextStyle(
+            //           fontSize: 16,
+            //           letterSpacing: 2.2,
+            //           color: Colors.black),
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),

@@ -12,7 +12,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    BlocProvider(
+      create: (context) => ClassBloc(ClassRepository(), UserRepository()),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

@@ -47,7 +47,7 @@ Future<void> _onLoadClasses(LoadClasses event, Emitter<ClassState> emit) async {
     if (token == null) {
       throw Exception('Authentication token not found');
     }
-
+    
     try {
       await classRepository.createClass(event.newClass, token);
       add(LoadClasses());

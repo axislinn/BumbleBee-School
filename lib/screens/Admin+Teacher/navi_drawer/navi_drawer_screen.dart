@@ -143,7 +143,7 @@ class _NaviDrawerState extends State<NaviDrawer> {
               );
             },
           ),
-          const Divider(), 
+          const Divider(height: 10,), 
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text('Sign Out'),
