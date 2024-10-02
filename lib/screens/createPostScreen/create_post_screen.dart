@@ -6,6 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:bumblebee/bloc/post_bloc/post_bloc.dart';
 import 'package:bumblebee/bloc/post_bloc/post_event.dart';
 import 'package:bumblebee/bloc/post_bloc/post_state.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class CreatePostScreen extends StatefulWidget {
   @override
@@ -42,17 +43,39 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 // Pick documents using file picker
   Future<void> _pickDocuments() async {
     try {
+      // Check the status of the storage permission
+      var status = await Permission.storage.status;
+      if (status.isDenied) {
+        // Request the storage permission
+        await Permission.storage.request();
+      }
+
+      // Check the status of the photos permission
+      status = await Permission.photos.status;
+      if (status.isDenied) {
+        // Request the photos permission
+        await Permission.photos.request();
+      }
+
+      // Pick files
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         allowMultiple: true,
         type: FileType.custom,
         allowedExtensions: ['pdf', 'doc', 'docx', 'xlsx'],
       );
 
-      if (result != null && result.paths.isNotEmpty) {
+      if (result != null) {
         setState(() {
-          _documents = result.paths.map((path) => File(path!)).toList();
+          if (result.files.isNotEmpty) {
+            _documents = result.files.map((file) => File(file.path!)).toList();
+          } else {
+            _documents = [];
+          }
         });
       } else {
+        setState(() {
+          _documents = [];
+        });
         print("No documents selected.");
       }
     } catch (e) {
@@ -234,14 +257,13 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                         ),
                 ),
                 SizedBox(height: 20),
-
                 // Document picker
                 Center(
-                  child: _documents != null && _documents!.isNotEmpty
+                  child: _documents.isNotEmpty
                       ? Wrap(
                           spacing: 10,
                           runSpacing: 10,
-                          children: _documents!.map((document) {
+                          children: _documents.map((document) {
                             return Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [

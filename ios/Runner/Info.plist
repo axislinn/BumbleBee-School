@@ -6,6 +6,10 @@
 <string>We need access to your photo library to upload files.</string>
 <key>NSFileProviderUsageDescription</key>
 <string>We need access to your files.</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>This app needs access to your photo library to pick files.</string>
+<key>NSCameraUsageDescription</key>
+<string>This app needs access to your camera to pick files.</string>
 
     <key>NSPhotoLibraryUsageDescription</key>
     <string>We need access to your photo library to select photos for posts.</string>

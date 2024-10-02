@@ -5,10 +5,13 @@ import 'package:bumblebee/screens/auth/splashscreen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
 // Adjust the import path if needed
 
-void main() {
-  //WidgetsFlutterBinding.ensureInitialized();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Permission.storage.request();
+  await Permission.photos.request();
   runApp(MyApp());
 }
 
