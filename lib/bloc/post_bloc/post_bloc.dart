@@ -66,4 +66,6 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       emit(PostFailure('An error occurred: $e'));
     }
   }
+
+  ///fetch data for post
 }

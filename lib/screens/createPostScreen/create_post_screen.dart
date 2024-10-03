@@ -240,51 +240,121 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
                 // Image display or picker
                 Center(
-                  child: _images.isNotEmpty
-                      ? Wrap(
-                          spacing: 10,
-                          runSpacing: 10,
-                          children: _images
-                              .map((image) => Image.file(image,
-                                  height: 100, width: 100, fit: BoxFit.cover))
-                              .toList(),
-                        )
-                      : TextButton.icon(
-                          icon: Icon(Icons.photo, color: Colors.blue),
-                          label: Text('Add Photos',
-                              style: TextStyle(color: Colors.blue)),
-                          onPressed: _pickImage,
+                  child: Column(
+                    children: [
+                      _images.isNotEmpty
+                          ? Wrap(
+                              spacing: 10,
+                              runSpacing: 10,
+                              children: _images
+                                  .map((image) => Stack(
+                                        children: [
+                                          Image.file(image,
+                                              height: 100,
+                                              width: 100,
+                                              fit: BoxFit.cover),
+                                          Positioned(
+                                            right: 0,
+                                            top: 0,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  _images.remove(
+                                                      image); // Remove image
+                                                });
+                                              },
+                                              child: Icon(Icons.cancel,
+                                                  color: Colors.red),
+                                            ),
+                                          ),
+                                        ],
+                                      ))
+                                  .toList(),
+                            )
+                          : Container(),
+                      SizedBox(height: 10),
+                      GestureDetector(
+                        onTap: _pickImage, // Open image picker
+                        child: Container(
+                          width: 400,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.grey, width: 3),
+                          ),
+                          child: Center(
+                            child: Icon(
+                              Icons.add,
+                              color: Colors.black,
+                              size: 40,
+                            ),
+                            // Plus icon
+                          ),
                         ),
+                      ),
+                    ],
+                  ),
                 ),
+
                 SizedBox(height: 20),
                 // Document picker
                 Center(
                   child: _documents.isNotEmpty
                       ? Wrap(
-                          spacing: 10,
-                          runSpacing: 10,
+                          spacing: 15,
+                          runSpacing: 15,
                           children: _documents.map((document) {
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(Icons.insert_drive_file,
-                                    color: Colors.green, size: 50),
-                                SizedBox(height: 5),
-                                Text(
-                                  document.path
-                                      .split('/')
-                                      .last, // Display the file name
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 12),
-                                ),
-                              ],
+                            return Container(
+                              width: 100,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: Colors.grey.shade300),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: Offset(
+                                        0, 3), // changes position of shadow
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.insert_drive_file,
+                                    color: Colors.green,
+                                    size: 50,
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    document.path.split('/').last,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow
+                                        .ellipsis, // Handle long names
+                                    maxLines: 2, // Limit to two lines
+                                  ),
+                                ],
+                              ),
                             );
                           }).toList(),
                         )
                       : TextButton.icon(
                           icon: Icon(Icons.upload_file, color: Colors.blue),
-                          label: Text('Add Documents',
-                              style: TextStyle(color: Colors.blue)),
+                          label: Text(
+                            'Add Documents',
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold),
+                          ),
                           onPressed: _pickDocuments,
                         ),
                 ),
