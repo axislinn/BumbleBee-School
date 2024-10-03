@@ -16,6 +16,7 @@ Widget build(BuildContext context) {
           IconButton(
             icon: Icon(Icons.refresh),
             onPressed: () {
+              // Trigger loading of classes again
               context.read<ClassBloc>().add(LoadClasses());
             },
           ),

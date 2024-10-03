@@ -21,7 +21,6 @@ Future<void> _onLoadClasses(LoadClasses event, Emitter<ClassState> emit) async {
 
   final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('userToken');
-
     if (token == null) {
       throw Exception('Authentication token not found');
     }
@@ -43,7 +42,6 @@ Future<void> _onLoadClasses(LoadClasses event, Emitter<ClassState> emit) async {
     
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('userToken');
-
     if (token == null) {
       throw Exception('Authentication token not found');
     }
