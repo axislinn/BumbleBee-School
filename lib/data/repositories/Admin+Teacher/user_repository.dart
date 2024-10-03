@@ -32,6 +32,9 @@ class UserRepository {
         // Save the token securely
         await secureStorage.write(key: 'userToken', value: token); // Consistent key usage
 
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('userToken', token);
+
         return UserModel.fromJson(jsonResponse['result']['userInfo']);
       } else {
         print('Login failed: ${jsonResponse['msg']}');
