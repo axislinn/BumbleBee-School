@@ -110,6 +110,23 @@ class _NaviDrawerState extends State<NaviDrawer> {
               );
             },
           ),
+            
+          ListTile(
+            leading: const Icon(Icons.group_remove),
+            title: const Text('Leave Requests'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context).pushAndRemoveUntil(
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) => const setting(),
+                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                    return child;
+                  },
+                ),
+                (route) => true,
+              );
+            },
+          ),
 
           ListTile(
             leading: const Icon(Icons.settings),
@@ -143,6 +160,7 @@ class _NaviDrawerState extends State<NaviDrawer> {
               );
             },
           ),
+
           const Divider(height: 10,), 
           ListTile(
             leading: const Icon(Icons.logout),

@@ -41,8 +41,16 @@ class _StudentListState extends State<StudentList> {
     return BlocProvider<StudentBloc>.value(
       value: _studentBloc,
       child: Scaffold(
-        appBar: AppBar(
+      appBar: AppBar(
           title: Text('Students'),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: () {
+                _fetchStudents();
+              },
+            ),
+          ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: _navigateToAddStudentToClass,

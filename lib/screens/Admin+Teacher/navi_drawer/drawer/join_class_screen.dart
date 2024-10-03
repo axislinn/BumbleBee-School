@@ -10,8 +10,18 @@ class JoinClassPage extends StatelessWidget {
 
   @override
 Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(title: Text('Admin Screen')),
+    return Scaffold(
+      appBar: AppBar(title: Text('Admin Screen'),
+            actions: [
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () {
+              context.read<ClassBloc>().add(LoadClasses());
+            },
+          ),
+        ],
+    ),
+    
     body: Column(
       children: [
         Expanded(child: ClassDisplayScreen()),  // Main content stays the same
