@@ -276,19 +276,28 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                       GestureDetector(
                         onTap: _pickImage, // Open image picker
                         child: Container(
-                          width: 400,
+                          width: 100,
                           height: 100,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.grey, width: 3),
+                            border: Border.all(color: Colors.grey, width: 2),
                           ),
                           child: Center(
-                            child: Icon(
-                              Icons.add,
-                              color: Colors.black,
-                              size: 40,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.add,
+                                    color: Colors.black, size: 40), // Plus icon
+                                SizedBox(
+                                    height: 5), // Space between icon and text
+                                Text(
+                                  "Add Photo",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 12), // Text style
+                                ),
+                              ],
                             ),
-                            // Plus icon
                           ),
                         ),
                       ),
