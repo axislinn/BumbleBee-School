@@ -36,7 +36,6 @@ class HomePage extends StatelessWidget {
 }
 
 // Your PostWidget class definition goes here
-
 class PostWidget extends StatelessWidget {
   final PostModel post;
 
@@ -54,26 +53,37 @@ class PostWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // User Profile (posted_by)
-            Row(
-              children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage(post.postedBy!.profilePicture),
-                  radius: 20,
-                ),
-                const SizedBox(width: 10),
-                Text(
-                  post.postedBy!.userName,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-              ],
-            ),
+            if (post.postedBy != null) // Null check for postedBy
+              Row(
+                children: [
+                  CircleAvatar(
+                    backgroundImage:
+                        NetworkImage(post.postedBy!.profilePicture),
+                    radius: 20,
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    post.postedBy!.userName,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                ],
+              ),
             const SizedBox(height: 10),
 
-            // School ID (if available)
-            if (post.schoolId.isNotEmpty)
+            // School Name (if available)
+            if (post.schoolId != null)
               Text(
-                'School ID: ${post.schoolId}',
+                'School: ${post.schoolId?.schoolName}', // Displaying school name
+                style: const TextStyle(fontSize: 14, color: Colors.grey),
+              ),
+
+            const SizedBox(height: 10),
+
+            // Class Name (if available)
+            if (post.classId != null)
+              Text(
+                'Class: ${post.classId?.className}', // Displaying class name
                 style: const TextStyle(fontSize: 14, color: Colors.grey),
               ),
 
@@ -107,13 +117,16 @@ class PostWidget extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   itemCount: post.contentPictures!.length,
                   itemBuilder: (context, index) {
+                    final pictureUrl = post.contentPictures![index];
                     return Padding(
                       padding: const EdgeInsets.only(right: 8.0),
-                      child: Image.network(
-                        post.contentPictures![index] as String,
-                        width: 100,
-                        fit: BoxFit.cover,
-                      ),
+                      child: pictureUrl.isNotEmpty
+                          ? Image.network(
+                              pictureUrl,
+                              width: 100,
+                              fit: BoxFit.cover,
+                            )
+                          : const SizedBox(), // Handle empty URL
                     );
                   },
                 ),
@@ -154,20 +167,22 @@ class PostWidget extends StatelessWidget {
               children: [
                 const Icon(Icons.thumb_up, size: 20, color: Colors.blue),
                 const SizedBox(width: 5),
-                Text('${post.reactions} Reactions'),
+                Text(
+                    '${post.reactions ?? 0} Reactions'), // Default to 0 if null
               ],
             ),
 
             const SizedBox(height: 10),
 
             // Date and Time
-            Text(
-              'Posted on: ${post.createdAt?.toLocal().toString().split(' ')[0]}',
-              style: const TextStyle(color: Colors.grey, fontSize: 12),
-            ),
+            if (post.createdAt != null)
+              Text(
+                'Posted on: ${post.createdAt!.toLocal().toString().split(' ')[0]}',
+                style: const TextStyle(color: Colors.grey, fontSize: 12),
+              ),
             if (post.updatedAt != null)
               Text(
-                'Updated on: ${post.updatedAt?.toLocal().toString().split(' ')[0]}',
+                'Updated on: ${post.updatedAt!.toLocal().toString().split(' ')[0]}',
                 style: const TextStyle(color: Colors.grey, fontSize: 12),
               ),
           ],

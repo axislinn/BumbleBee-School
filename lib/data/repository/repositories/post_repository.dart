@@ -32,8 +32,11 @@ class PostRepository {
 
     request.fields['contentType'] = post.contentType;
 
-    if (post.classId != null && post.classId.isNotEmpty) {
-      request.fields['classId'] = post.classId;
+    // If 'classId' has an 'id' property or a similar identifier, use that
+    if (post.classId != null &&
+        post.classId?.id != null &&
+        post.classId!.id.isNotEmpty) {
+      request.fields['classId'] = post.classId!.id; // Assuming 'id' is a String
     }
 
     // Add each image file to the request

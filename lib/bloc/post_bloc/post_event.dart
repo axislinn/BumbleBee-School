@@ -34,6 +34,10 @@ class CreatePost extends PostEvent {
         contentPictures,
         documents, // Ensure this is included in the props
       ];
+
+  get className => null;
+
+  get schoolName => null;
 }
 
 class FetchPosts extends PostEvent {} // New event for fetching posts

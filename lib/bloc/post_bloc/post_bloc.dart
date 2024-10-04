@@ -37,13 +37,18 @@ class PostBloc extends Bloc<PostEvent, PostState> {
           .map((document) => document.path)
           .toList(); // Convert List<File> to List<String>
 
+      // Create instances of School and Class using the data passed in the event
+      final School school = School(id: schoolId, schoolName: event.schoolName);
+      final Class classObj =
+          Class(id: event.classId, className: event.className);
+
       // Create Post model with paths for images and documents
       final post = PostModel(
         heading: event.heading,
         body: event.body,
         contentType: event.contentType,
-        classId: event.classId,
-        schoolId: schoolId,
+        classId: classObj, // Use Class object
+        schoolId: school, // Use School object
         contentPictures: imagePaths, // Passing paths (List<String>)
         documents: documentPaths, // Passing document paths (List<String>)
       );
@@ -53,8 +58,8 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         post,
         schoolId,
         token,
-        imagePaths, // Now passing List<String> paths for images
-        documentPaths, // Now passing List<String> paths for documents
+        imagePaths, // Passing List<String> paths for images
+        documentPaths, // Passing List<String> paths for documents
       );
 
       // Log response for debugging
@@ -62,7 +67,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
       // Check the result and emit appropriate state
       if (result.success) {
-        emit(PostSuccess([]));
+        emit(PostSuccess([])); // Emit success state
       } else {
         // Log the failure message in the console for debugging
         print("Failed to create post: ${result.message}");

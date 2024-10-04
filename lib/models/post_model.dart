@@ -1,5 +1,3 @@
-import 'dart:io';
-
 class PostModel {
   final String? id;
   final String heading;
@@ -7,8 +5,8 @@ class PostModel {
   final List<String>? contentPictures; // Use String instead of File
   final String contentType;
   final int? reactions;
-  final String classId;
-  final String schoolId;
+  final School? schoolId; // Changed to School object
+  final Class? classId; // Changed to Class object
   final List<String>? documents; // Use String instead of File
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -21,8 +19,8 @@ class PostModel {
     this.contentPictures, // Now it's a List<String> for URLs
     required this.contentType,
     this.reactions,
-    required this.classId,
-    required this.schoolId,
+    this.classId, // Changed to Class object
+    this.schoolId, // Changed to School object
     this.documents, // Handle as List<String> for URLs
     this.createdAt,
     this.updatedAt,
@@ -41,8 +39,12 @@ class PostModel {
           : null,
       contentType: json['contentType'] ?? '',
       reactions: json['reactions'] != null ? json['reactions'] as int : 0,
-      classId: json['classId'] ?? '',
-      schoolId: json['schoolId'] ?? '',
+      classId: json['classId'] != null
+          ? Class.fromJson(json['classId']) // Now expects an object
+          : null,
+      schoolId: json['schoolId'] != null
+          ? School.fromJson(json['schoolId']) // Now expects an object
+          : null,
       documents: json['documents'] != null
           ? List<String>.from(json['documents']) // Use String instead of File
           : null,
@@ -64,12 +66,62 @@ class PostModel {
       'contentPictures': contentPictures, // No need to map file paths
       'contentType': contentType,
       'reactions': reactions,
-      'classId': classId,
-      'schoolId': schoolId,
+      'classId': classId?.toJson(), // Serialize Class object
+      'schoolId': schoolId?.toJson(), // Serialize School object
       'documents': documents, // Handle documents
       'createdAt': createdAt?.toIso8601String(),
       'updatedAt': updatedAt?.toIso8601String(),
       'posted_by': postedBy?.toJson(),
+    };
+  }
+}
+
+class School {
+  final String id;
+  final String schoolName; // Add schoolName field
+
+  School(
+      {required this.id,
+      required this.schoolName}); // Add schoolName to constructor
+
+  // Factory method to create a School object from a JSON map
+  factory School.fromJson(Map<String, dynamic> json) {
+    return School(
+      id: json['_id'],
+      schoolName: json['schoolName'], // Add schoolName from JSON
+    );
+  }
+
+  // Convert a School object to a JSON map
+  Map<String, dynamic> toJson() {
+    return {
+      '_id': id,
+      'schoolName': schoolName, // Serialize schoolName to JSON
+    };
+  }
+}
+
+class Class {
+  final String id;
+  final String className; // Add className field
+
+  Class(
+      {required this.id,
+      required this.className}); // Add className to constructor
+
+  // Factory method to create a Class object from a JSON map
+  factory Class.fromJson(Map<String, dynamic> json) {
+    return Class(
+      id: json['_id'],
+      className: json['className'], // Add className from JSON
+    );
+  }
+
+  // Convert a Class object to a JSON map
+  Map<String, dynamic> toJson() {
+    return {
+      '_id': id,
+      'className': className, // Serialize className to JSON
     };
   }
 }
@@ -106,10 +158,10 @@ class PostedBy {
 }
 
 class ApiResponse<T> {
-  final bool con; // Ensure this is always a boolean
+  final bool con;
   final String msg;
-  final T? result; // Use generics for result type
-  final int? statusCode; // Optional field for status code
+  final T? result;
+  final int? statusCode;
 
   ApiResponse({
     required this.con,
@@ -118,24 +170,23 @@ class ApiResponse<T> {
     this.statusCode,
   });
 
-  // Factory method to create ApiResponse from JSON
-  factory ApiResponse.fromJson(Map<String, dynamic> json) {
+  // Factory method to create ApiResponse from JSON, handling different types
+  factory ApiResponse.fromJson(
+      Map<String, dynamic> json, T Function(dynamic json) create) {
     return ApiResponse(
       con: json['con'] ?? false,
       msg: json['msg'] ?? '',
-      result:
-          json['result'], // Result can be of any type, so handle it dynamically
-      statusCode: json['statusCode'], // Optional statusCode
+      result: json['result'] != null ? create(json['result']) : null,
+      statusCode: json['statusCode'],
     );
   }
 
-  // Convert an ApiResponse to JSON
   Map<String, dynamic> toJson() {
     return {
       'con': con,
       'msg': msg,
       'result': result,
-      'statusCode': statusCode, // Include statusCode if available
+      'statusCode': statusCode,
     };
   }
 }
