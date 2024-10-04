@@ -8,10 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 // Adjust the import path if needed
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Permission.storage.request();
-  await Permission.photos.request();
+void main() {
   runApp(MyApp());
 }
 
