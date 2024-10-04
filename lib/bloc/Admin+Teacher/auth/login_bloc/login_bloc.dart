@@ -23,6 +23,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       // Store token in secure storage
       await storage.write(key: 'userToken', value: user.token); // Ensure the key is consistent
+      String rolesAsString = user.roles.join(',');
+      await storage.write(key: 'userRole', value: rolesAsString);
 
       emit(LoginSuccess(user: user));
     } catch (error) {

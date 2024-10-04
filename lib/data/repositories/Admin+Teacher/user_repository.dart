@@ -27,10 +27,13 @@ class UserRepository {
 
       if (jsonResponse['con'] == true) {
         String token = jsonResponse['result']['token'];
+        String roles = jsonResponse['result']['roles'] ?? '';
         print('Bearer Token: $token');
+        print('Role: $roles');
 
         // Save the token securely
         await secureStorage.write(key: 'userToken', value: token); // Consistent key usage
+        await secureStorage.write(key: 'userRole', value: roles);
 
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('userToken', token);
