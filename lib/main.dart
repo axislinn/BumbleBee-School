@@ -3,6 +3,7 @@ import 'package:bumblebee/bloc/Admin/school_register_bloc/school_register_bloc.d
 import 'package:bumblebee/data/repositories/Admin+Teacher/class_repository.dart';
 import 'package:bumblebee/data/repositories/Admin+Teacher/user_repository.dart';
 import 'package:bumblebee/data/repositories/Admin/school_repository.dart';
+import 'package:bumblebee/screens/Admin+Teacher/navi_drawer/drawer_routes.dart';
 import 'package:bumblebee/screens/Admin/Admin_home.dart';
 import 'package:bumblebee/screens/Admin/register_school.dart';
 import 'package:bumblebee/screens/Admin+Teacher/auth/splashscreen.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: SplashScreen(), 
+      onGenerateRoute: DrawerRoutes.generateRoute
     );
   }
 }
