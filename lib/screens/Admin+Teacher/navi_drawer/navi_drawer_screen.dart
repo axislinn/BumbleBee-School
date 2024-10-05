@@ -18,7 +18,7 @@ class _NaviDrawerState extends State<NaviDrawer> {
     'admin': [
       {'icon': Icons.home, 'title': 'Home', 'route': '/home'},
       {'icon': Icons.class_, 'title': 'Join Class', 'route': '/joinClass'},
-      {'icon': Icons.class_, 'title': 'Leave Request', 'route': '/joinClass'},
+      {'icon': Icons.group_remove, 'title': 'Leave Request', 'route': '/joinClass'},
       {'icon': Icons.settings, 'title': 'Settings', 'route': '/settings'},
       {'icon': Icons.info, 'title': 'Info', 'route': '/info'},
     ],
