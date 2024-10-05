@@ -35,3 +35,5 @@ class CreatePost extends PostEvent {
         documents, // Ensure this is included in the props
       ];
 }
+
+class FetchPosts extends PostEvent {} // New event for fetching posts

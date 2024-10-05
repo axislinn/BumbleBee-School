@@ -12,6 +12,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   PostBloc({required this.postRepository}) : super(PostInitial()) {
     // Register event handlers
     on<CreatePost>(_onCreatePost);
+    on<FetchPosts>(_onFetchPosts);
   }
 
   Future<void> _onCreatePost(CreatePost event, Emitter<PostState> emit) async {
@@ -28,33 +29,34 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         return;
       }
 
-      // Create Post model with multiple images and documents
+      // Convert List<File> to List<String> (file paths) for images and documents
+      final List<String> imagePaths = event.contentPictures
+          .map((image) => image.path)
+          .toList(); // Convert to paths
+      final List<String> documentPaths = event.documents
+          .map((document) => document.path)
+          .toList(); // Convert to paths
+
+      // Create Post model with image paths
       final post = PostModel(
         heading: event.heading,
         body: event.body,
         contentType: event.contentType,
         classId: event.classId,
         schoolId: schoolId,
-        contentPictures: event.contentPictures, // Handle multiple images
+        contentPictures: imagePaths, // Now passing paths, not File objects
       );
 
-      // Convert images and documents to paths for backend
-      final List<String> imagePaths =
-          event.contentPictures.map((image) => image.path).toList();
-      final List<String> documentPaths =
-          event.documents.map((document) => document.path).toList();
-
       // Pass images and documents to the repository
-      final result = await postRepository.createPost(post, schoolId, token,
-          imagePaths, documentPaths // Now passing documents as well
-          );
+      final result = await postRepository.createPost(
+          post, schoolId, token, imagePaths, documentPaths);
 
       // Log response for debugging
       print("Post creation response: ${result}");
 
       // Check the result and emit appropriate state
       if (result.success) {
-        emit(PostSuccess());
+        emit(PostSuccess([]));
       } else {
         // Log the failure message in the console for debugging
         print("Failed to create post: ${result.message}");
@@ -63,6 +65,26 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     } catch (e) {
       // Log the caught error in the debug console
       print("An error occurred: $e");
+      emit(PostFailure('An error occurred: $e'));
+    }
+  }
+
+  Future<void> _onFetchPosts(FetchPosts event, Emitter<PostState> emit) async {
+    emit(PostLoading());
+
+    try {
+      // Retrieve token from SharedPreferences for authentication
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('userToken');
+
+      // Fetch posts from the repository
+      final List<PostModel> posts = await postRepository.fetchPosts(token);
+
+      // Emit the loaded state with the fetched posts
+      emit(PostSuccess(posts));
+    } catch (e) {
+      // Log the error for debugging
+      print("An error occurred while fetching posts: $e");
       emit(PostFailure('An error occurred: $e'));
     }
   }
