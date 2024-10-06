@@ -6,12 +6,10 @@ import 'package:bumblebee/models/Admin+Teacher/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserRepository {
-  final String baseUrl =
-      'https://bumblebeeflutterdeploy-production.up.railway.app';
+  final String baseUrl = 'https://bumblebeeflutterdeploy-production.up.railway.app';
 
   //Method for login
-  Future<UserModel> authenticate(
-      {required String email, required String password}) async {
+  Future<UserModel> authenticate({required String email, required String password}) async {
     final url = Uri.parse('$baseUrl/api/auth/login');
     print('Attempting to authenticate user with email: $email');
 
@@ -60,7 +58,7 @@ Future<UserModel> register({
   required String password,
   required String confirmedPassword,
   required String phone,
-  required String role,  // Add role to method signature
+  required String role,  
   // required String relationship,
 }) async {
   final url = Uri.parse('$baseUrl/api/auth/register');
@@ -74,7 +72,7 @@ Future<UserModel> register({
       'password': password,
       'confirmedPassword': confirmedPassword,
       'phone': phone,
-      'roles': role,  // Pass role to API
+      'roles': role,  
       // 'relationship': relationship,
     }),
   );
@@ -125,8 +123,6 @@ Future<UserModel> register({
   Future<UserModel> getUserById(String userId) async {
     final url = Uri.parse('$baseUrl/api/user/$userId');
     print('Fetching user data for userId: $userId');
-
-    // need make token local feature
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('userToken');

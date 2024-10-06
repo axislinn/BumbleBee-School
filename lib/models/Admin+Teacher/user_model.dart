@@ -5,6 +5,7 @@ class UserModel {
   final String email;
   final String profilePicture;
   final String phone;
+  final List<String> schools;
   final List<String> roles;
   final List<String> relationship;
 
@@ -14,6 +15,7 @@ class UserModel {
     required this.email,
     required this.profilePicture,
     required this.phone,
+    required this.schools,
     required this.roles,
     required this.relationship
   });
@@ -26,6 +28,7 @@ class UserModel {
       email: json['email'] ?? '',
       profilePicture: json['profilePicture'] ?? '',
       phone: json['phone'] ?? '',
+      schools: List<String>.from(json['schools'] ?? []),
       roles: List<String>.from(json['roles'] ?? []), // Parse roles as List<String>
       relationship: List<String>.from(json['relationship'] ?? []), // Parse roles as List<String>
     );
@@ -39,6 +42,7 @@ class UserModel {
       'email': email,
       'profilePicture': profilePicture,
       'phone': phone,
+      'schools': schools,
       'roles': roles,
       'relationship': relationship
     };
