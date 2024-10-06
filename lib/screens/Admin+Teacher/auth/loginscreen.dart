@@ -50,7 +50,7 @@ class _LoginFormState extends State<LoginForm> {
     if (state is LoginSuccess) {   
       if (state.user.schools.isNotEmpty) {      
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => HomePage()),
+          MaterialPageRoute(builder: (context) => HomeScreen()),
         );
       } else {
         Navigator.of(context).pushReplacement(

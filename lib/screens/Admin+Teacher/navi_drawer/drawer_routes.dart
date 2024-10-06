@@ -16,7 +16,7 @@ class DrawerRoutes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/home':
-        return MaterialPageRoute(builder: (_) => HomePage());
+        return MaterialPageRoute(builder: (_) => HomeScreen());
       case '/joinClass':
         return MaterialPageRoute(
           builder: (_) => BlocProvider<ClassBloc>(

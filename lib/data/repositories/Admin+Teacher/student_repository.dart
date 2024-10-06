@@ -34,28 +34,25 @@ Future<List<StudentModel>> fetchClasses(String token) async {
 }
 
 
-  Future<List<Class>> getClasses(String token) async {
-    final url = Uri.parse('$baseUrl/api/class/readByTeacherAndGuardian');
-    final response = await http.get(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-    );
-    if (response.statusCode == 505) {
-      print("This is 505");
-      throw Exception('There are no classes registered'); 
-    } else if (response.statusCode != 200) {
-      print("This is not 200");
-      throw Exception('Failed to get class data. Status code: ${response.statusCode}'); 
-    }
+Future<List<Class>> getClasses(String token) async {
+  final url = Uri.parse('$baseUrl/api/class/readByTeacherAndGuardian');
+  final response = await http.get(
+    url,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    },
+  );
+  
+  if (response.statusCode == 200) {
     final Map<String, dynamic> data = jsonDecode(response.body);
-    print(data['result']);
     List<dynamic> classesList = data['result']['classes'];
-    print("testing $classesList");
     return classesList.map((json) => Class.fromJson(json)).toList();
+  } else {
+    throw Exception('Failed to get class data. Status code: ${response.statusCode}');
   }
+}
+
 
 
     Future<void> requestToJoinClass(String token, String classCode) async {
