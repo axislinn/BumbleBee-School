@@ -1,6 +1,9 @@
-part of 'student_bloc.dart';
+import 'package:equatable/equatable.dart';
 
-abstract class StudentEvent {}
+abstract class StudentEvent extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
 class FetchClassesEvent extends StudentEvent {}
 

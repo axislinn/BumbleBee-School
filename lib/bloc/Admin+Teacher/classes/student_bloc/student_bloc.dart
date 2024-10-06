@@ -1,24 +1,16 @@
-import 'package:bloc/bloc.dart';
-import 'package:bumblebee/bloc/Admin+Teacher/classes/create_edit_bloc/class_event.dart';
-import 'package:bumblebee/data/repositories/Admin+Teacher/class_repository.dart';
+import 'package:bumblebee/bloc/Admin+Teacher/classes/student_bloc/student_event.dart';
+import 'package:bumblebee/bloc/Admin+Teacher/classes/student_bloc/student_state.dart';
 import 'package:bumblebee/data/repositories/Admin+Teacher/student_repository.dart';
 import 'package:bumblebee/data/repositories/Admin+Teacher/user_repository.dart';
-import 'package:bumblebee/models/Admin+Teacher/class_model.dart';
-import 'package:bumblebee/models/Admin+Teacher/student_model.dart';
 import 'package:bumblebee/models/Admin+Teacher/user_model.dart';
-import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-part 'student_event.dart';
-part 'student_state.dart';
-
 class StudentBloc extends Bloc<StudentEvent, StudentState> {
-  final ClassRepository classRepository;
-  final UserRepository userRepository;
   final StudentRepository studentRepository;
+  final UserRepository userRepository;
 
-  StudentBloc(this.classRepository, this.userRepository, this.studentRepository) : super(StudentInitial()) {
-
+  StudentBloc(this.studentRepository, this.userRepository) : super(StudentInitialState()) {
     on<FetchClassesEvent>(_onFetchClasses);
     on<RequestToJoinClassEvent>(_onRequestToJoinClass);
     on<FetchStudentsEvent>(_onFetchStudents);
@@ -34,24 +26,20 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
   }
 
   void _onFetchClasses(FetchClassesEvent event, Emitter<StudentState> emit) async {
+    emit(StudentLoadingState());
+    try {
+      final token = await _getToken();
 
-    final token = await _getToken();
-
-    if (token == null) {
-      throw Exception('Authentication token not found');
+      if (token != null) {
+        final classes = await studentRepository.getClasses(token);
+        emit(StudentLoadedState(classes));
+      } else {
+        emit(StudentErrorState("Token not found"));
+      }
+    } catch (e) {
+      emit(StudentErrorState(e.toString()));
     }
-
-  print('Loading classes...');
-  emit(ClassLoading());
-  try {
-    final classes = await classRepository.fetchClasses(token);
-    print('Classes loaded: ${classes.length}');
-    emit(ClassLoaded(classes));
-  } catch (e) {
-    print('Error loading classes: $e');
-    emit(ClassError(e.toString()));
   }
-}
 
   void _onRequestToJoinClass(RequestToJoinClassEvent event, Emitter<StudentState> emit) async {
     try {
@@ -68,7 +56,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     }
   }
 
-    void _onFetchStudents(FetchStudentsEvent event, Emitter<StudentState> emit) async {
+  void _onFetchStudents(FetchStudentsEvent event, Emitter<StudentState> emit) async {
     emit(StudentsLoadingState());
     try {
       final token = await _getToken();
@@ -85,7 +73,6 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
   }
 
   void _onAddStudent(AddStudentEvent event, Emitter<StudentState> emit) async {
-
     try {
       final token = await _getToken();
 
@@ -96,47 +83,45 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
         emit(AddStudentErrorState("Token not found"));
       }
     } catch (e) {
-      emit(AddStudentErrorState('Error adding student: $e'));
+      emit(AddStudentErrorState(e.toString()));
     }
   }
 
-
-void _onFetchUser(FetchUserEvent event, Emitter<StudentState> emit) async {
-  emit(UserLoadingState());
-  try {
-    final userRepository = UserRepository();  // Create an instance
-    final user = await userRepository.getUserById(event.userId);  // Use the instance
-    emit(UserLoadedState(user));
-  } catch (e) {
-    emit(UserErrorState(e.toString()));
-  }
-}
-
-// Method to fetch guardians based on the list of IDs
-void _onFetchGuardians(FetchGuardiansEvent event, Emitter<StudentState> emit) async {
-  emit(GuardiansLoadingState());
-  List<UserModel> guardiansList = [];
-
-  if (event.guardianIds.isEmpty) {
-    emit(GuardiansLoadedState(guardiansList));
-    return;  // Exit early if there are no guardian IDs
-  }
-
-  final userRepository = UserRepository();  // Create an instance
-
-  for (String guardianId in event.guardianIds) {
+  // Method to fetech user detail by id
+  void _onFetchUser(FetchUserEvent event, Emitter<StudentState> emit) async {
+    emit(UserLoadingState());
     try {
-      UserModel guardian = await userRepository.getUserById(guardianId);  // Use the instance
-      guardiansList.add(guardian);
-      emit(GuardiansLoadedState(guardiansList));
+      final user = await userRepository.getUserById(event.userId);
+      emit(UserLoadedState(user));
     } catch (e) {
-      print('Failed to fetch guardian with ID $guardianId: $e');
-      emit(GuardiansErrorState('Failed to load some guardians.'));
+      emit(UserErrorState(e.toString()));
     }
   }
-}
 
+  // Method to fetch guardians based on the list of IDs
+  void _onFetchGuardians(FetchGuardiansEvent event, Emitter<StudentState> emit) async {
+    emit(GuardiansLoadingState());
+    List<UserModel> guardiansList = [];
 
+    if(event.guardianIds.isEmpty) {
+      emit(GuardiansLoadedState(guardiansList));
+    }
+
+    for (String guardianId in event.guardianIds) {
+      try {
+        UserModel guardian = await userRepository.getUserById(guardianId);
+        guardiansList.add(guardian);
+        emit(GuardiansLoadedState(guardiansList));
+      } catch (e) {
+        print('Failed to fetch guardian with ID $guardianId: $e');
+        emit(GuardiansErrorState('Failed to load some guardians.'));
+      }
+    }
+
+    
+  }
+
+  // Method to fetech pendiong requests
   void _onFetchPendingRequests(FetchPendingRequestsEvent event, Emitter<StudentState> emit) async {
    print("Fetching pending requests for classId: ${event.classId}, studentId: ${event.studentId}");
    emit(PendingRequestsLoadingState()); // Emit loading state
@@ -155,8 +140,6 @@ void _onFetchGuardians(FetchGuardiansEvent event, Emitter<StudentState> emit) as
      emit(PendingRequestsErrorState(e.toString()));
    }
   }
-  
+
 
 }
-
-

@@ -2,9 +2,7 @@ import 'dart:convert';
 import 'package:bumblebee/models/Admin+Teacher/class_model.dart';
 import 'package:bumblebee/models/Admin+Teacher/student_model.dart';
 import 'package:bumblebee/models/Admin+Teacher/user_model.dart';
-import 'package:bumblebee/models/Admin/school_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 class StudentRepository {
   final String baseUrl = 'https://bumblebeeflutterdeploy-production.up.railway.app';
@@ -39,7 +37,7 @@ Future<List<StudentModel>> fetchClasses(String token) async {
 }
 
 
-  Future<List<StudentModel>> getClasses(String token) async {
+  Future<List<Class>> getClasses(String token) async {
     final url = Uri.parse('$baseUrl/api/class/readByTeacherAndGuardian');
 
     final response = await http.get(
@@ -71,7 +69,7 @@ Future<List<StudentModel>> fetchClasses(String token) async {
     print("testing $classesList");
 
     // Map the JSON data to a list of ClassModel objects
-    return classesList.map((json) => StudentModel.fromJson(json)).toList();
+    return classesList.map((json) => Class.fromJson(json)).toList();
 
   }
 

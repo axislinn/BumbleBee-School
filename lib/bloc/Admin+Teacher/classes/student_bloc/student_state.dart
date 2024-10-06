@@ -1,40 +1,30 @@
-part of 'student_bloc.dart';
+import 'package:bumblebee/models/Admin+Teacher/class_model.dart';
+import 'package:bumblebee/models/Admin+Teacher/student_model.dart';
+import 'package:bumblebee/models/Admin+Teacher/user_model.dart';
+import 'package:equatable/equatable.dart';
 
-
-
-final class StudentInitial extends StudentState {}
-
-abstract class StudentState {}
-
-class ClassInitial extends StudentState {}
-
-class ClassLoading extends StudentState {}
-
-class ClassLoaded extends StudentState {
-  final List<Class> classes;
-  ClassLoaded(this.classes);
+abstract class StudentState extends Equatable {
+  @override
+  List<Object?> get props => [];
 }
 
-class ClassError extends StudentState {
-  final String message;
-  ClassError(this.message);
-}
+class StudentInitialState extends StudentState {}
 
-class ClassLoadingState extends StudentState {}
+class StudentLoadingState extends StudentState {}
 
-class ClassLoadedState extends StudentState {
+class StudentLoadedState extends StudentState {
   final List<Class> classes;
 
-  ClassLoadedState(this.classes);
+  StudentLoadedState(this.classes);
 
   @override
   List<Object?> get props => [classes];
 }
 
-class ClassErrorState extends StudentState {
+class StudentErrorState extends StudentState {
   final String message;
 
-  ClassErrorState(this.message);
+  StudentErrorState(this.message);
 
   @override
   List<Object?> get props => [message];
@@ -139,3 +129,6 @@ class PendingRequestsErrorState extends StudentState {
   @override
   List<Object?> get props => [message];
 }
+
+
+

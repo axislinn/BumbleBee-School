@@ -1,3 +1,5 @@
+import 'package:bumblebee/screens/Admin+Teacher/classes/class_list.dart';
+import 'package:bumblebee/screens/Admin+Teacher/classes/classes.dart';
 import 'package:bumblebee/screens/Admin+Teacher/home/home_screen.dart';
 import 'package:bumblebee/screens/Admin+Teacher/role_selection/role_seletion.dart';
 import 'package:bumblebee/screens/Admin+Teacher/auth/signupscreen.dart';
@@ -53,7 +55,7 @@ class _LoginFormState extends State<LoginForm> {
       listener: (context, state) {
         if (state is LoginSuccess) {
           Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => SchoolSelect()),
+            MaterialPageRoute(builder: (context) => ClassList()),
           );
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Welcome, ${state.user.userName}!')),
