@@ -104,29 +104,26 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
 void _onFetchUser(FetchUserEvent event, Emitter<StudentState> emit) async {
   emit(UserLoadingState());
   try {
-    final userRepository = UserRepository();  // Create an instance
-    final user = await userRepository.getUserById(event.userId);  // Use the instance
+    final user = await studentRepository.getUserById(event.userId);  // Use the instance
     emit(UserLoadedState(user));
   } catch (e) {
     emit(UserErrorState(e.toString()));
   }
 }
 
-// Method to fetch guardians based on the list of IDs
+
 void _onFetchGuardians(FetchGuardiansEvent event, Emitter<StudentState> emit) async {
   emit(GuardiansLoadingState());
   List<UserModel> guardiansList = [];
 
   if (event.guardianIds.isEmpty) {
     emit(GuardiansLoadedState(guardiansList));
-    return;  // Exit early if there are no guardian IDs
+    return;  
   }
-
-  final userRepository = UserRepository();  // Create an instance
 
   for (String guardianId in event.guardianIds) {
     try {
-      UserModel guardian = await userRepository.getUserById(guardianId);  // Use the instance
+      UserModel guardian = await studentRepository.getUserById(guardianId);  
       guardiansList.add(guardian);
       emit(GuardiansLoadedState(guardiansList));
     } catch (e) {
@@ -139,7 +136,7 @@ void _onFetchGuardians(FetchGuardiansEvent event, Emitter<StudentState> emit) as
 
   void _onFetchPendingRequests(FetchPendingRequestsEvent event, Emitter<StudentState> emit) async {
    print("Fetching pending requests for classId: ${event.classId}, studentId: ${event.studentId}");
-   emit(PendingRequestsLoadingState()); // Emit loading state
+   emit(PendingRequestsLoadingState()); 
    try {
      final token = await _getToken();
      print("got token $token");

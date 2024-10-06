@@ -1,14 +1,13 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:bumblebee/models/Admin+Teacher/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserRepository {
   final String baseUrl = 'https://bumblebeeflutterdeploy-production.up.railway.app';
+  final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
-  //Method for login
   Future<UserModel> authenticate({required String email, required String password}) async {
     final url = Uri.parse('$baseUrl/api/auth/login');
     print('Attempting to authenticate user with email: $email');
@@ -16,10 +15,7 @@ class UserRepository {
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
-      body: json.encode({
-        'email': email,
-        'password': password,
-      }),
+      body: json.encode({'email': email, 'password': password}),
     );
 
     print('Response status: ${response.statusCode}');
@@ -29,17 +25,19 @@ class UserRepository {
       var jsonResponse = json.decode(response.body);
       print('Parsed JSON response: $jsonResponse');
 
-      if (jsonResponse.containsKey('con') && jsonResponse['con'] == true) {
-        print(
-            'Login successful, user data: ${jsonResponse['result']['userInfo']}');
-
+      if (jsonResponse['con'] == true) {
         String token = jsonResponse['result']['token'];
+        String roles = jsonResponse['result']['roles'] ?? '';
         print('Bearer Token: $token');
+        print('Role: $roles');
+
+        // Save the token securely
+        await secureStorage.write(key: 'userToken', value: token); // Consistent key usage
+        await secureStorage.write(key: 'userRole', value: roles);
 
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('userToken', token);
 
-        // Pass the correct userInfo object to the UserModel
         return UserModel.fromJson(jsonResponse['result']['userInfo']);
       } else {
         print('Login failed: ${jsonResponse['msg']}');
@@ -118,7 +116,6 @@ Future<UserModel> register({
     }
   }
 
-
 // Method to fetch user by userId
   Future<UserModel> getUserById(String userId) async {
     final url = Uri.parse('$baseUrl/api/user/$userId');
@@ -146,16 +143,4 @@ Future<UserModel> register({
       var jsonResponse = json.decode(response.body);
       print('Parsed JSON response: $jsonResponse');
 
-      if (jsonResponse.containsKey('con') && jsonResponse['con'] == true) {
-        // Parse and return the user info
-        return UserModel.fromJson(jsonResponse['result']);
-      } else {
-        print('Failed to fetch user info: ${jsonResponse['msg']}');
-        throw Exception('Failed to fetch user info: ${jsonResponse['msg']}');
-      }
-    } else {
-      print('HTTP error: ${response.statusCode}');
-      throw Exception('HTTP error: ${response.statusCode}');
-    }
-  }
 }
