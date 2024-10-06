@@ -1,25 +1,21 @@
-import 'package:bumblebee/models/Admin+Teacher/user_model.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:bumblebee/models/Admin+Teacher/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserRepository {
-  final String baseUrl =
-      'https://bumblebeeflutterdeploy-production.up.railway.app';
+  final String baseUrl = 'https://bumblebeeflutterdeploy-production.up.railway.app';
+  final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
-  //Method for login
-  Future<UserModel> authenticate(
-      {required String email, required String password}) async {
+  Future<UserModel> authenticate({required String email, required String password}) async {
     final url = Uri.parse('$baseUrl/api/auth/login');
     print('Attempting to authenticate user with email: $email');
 
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
-      body: json.encode({
-        'email': email,
-        'password': password,
-      }),
+      body: json.encode({'email': email, 'password': password}),
     );
 
     print('Response status: ${response.statusCode}');
@@ -29,24 +25,15 @@ class UserRepository {
       var jsonResponse = json.decode(response.body);
       print('Parsed JSON response: $jsonResponse');
 
-      if (jsonResponse.containsKey('con') && jsonResponse['con'] == true) {
+      if (jsonResponse['con'] == true) {
         String token = jsonResponse['result']['token'];
-        print('Token: $token');
+        print('Bearer Token: $token');
 
-        // Extract schoolId from the `schools` list
-        List<dynamic> schools =
-            jsonResponse['result']['userInfo']['schools'] ?? [];
-        String? schoolId = schools.isNotEmpty ? schools.first : null;
-        print('School ID: $schoolId');
-
-        // Check if token and schoolId are valid
-        if (token.isEmpty || schoolId == null || schoolId.isEmpty) {
-          throw Exception('Token or School ID is missing');
-        }
+        // Save the token securely
+        await secureStorage.write(key: 'userToken', value: token); // Consistent key usage
 
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('userToken', token);
-        await prefs.setString('schoolId', schoolId);
 
         return UserModel.fromJson(jsonResponse['result']['userInfo']);
       } else {
@@ -60,28 +47,30 @@ class UserRepository {
   }
 
 //mwthod for sign up
-  Future<UserModel> register({
-    required String userName,
-    required String email,
-    required String password,
-    required String confirmedPassword,
-    required String phone,
-    required String role,
-  }) async {
-    final url = Uri.parse('$baseUrl/api/auth/register');
+Future<UserModel> register({
+  required String userName,
+  required String email,
+  required String password,
+  required String confirmedPassword,
+  required String phone,
+  required String role,  // Add role to method signature
+  // required String relationship,
+}) async {
+  final url = Uri.parse('$baseUrl/api/auth/register');
 
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode({
-        'userName': userName,
-        'email': email,
-        'password': password,
-        'confirmedPassword': confirmedPassword,
-        'phone': phone,
-        'roles': role,
-      }),
-    );
+  final response = await http.post(
+    url,
+    headers: {'Content-Type': 'application/json'},
+    body: json.encode({
+      'userName': userName,
+      'email': email,
+      'password': password,
+      'confirmedPassword': confirmedPassword,
+      'phone': phone,
+      'roles': role,  // Pass role to API
+      // 'relationship': relationship,
+    }),
+  );
 
     // Print response details for debugging
     print('Response status: ${response.statusCode}');
@@ -94,35 +83,36 @@ class UserRepository {
     print('Parsed JSON response: $jsonResponse');
 
     if (response.statusCode == 200) {
+      // Check if `con` field exists and is a boolean
       bool success = jsonResponse['con'] ?? false;
       if (success) {
-        String token = jsonResponse['result']['token'] ?? '';
+        String token = jsonResponse['result']['token'];
         print('Bearer Token: $token');
-
-        if (token.isEmpty) {
-          throw Exception('Token is missing');
-        }
 
         Future<void> saveToken(String token) async {
           final prefs = await SharedPreferences.getInstance();
           await prefs.setString('userToken', token);
         }
 
-        await saveToken(token);
-
+        // Handle successful registration
         var result = jsonResponse['result'];
         if (result != null && result['user'] != null) {
-          // Ensure the user part exists and is valid
+          // Assuming UserModel.fromJson handles the `user` part of the result
           return UserModel.fromJson(result['user']);
         } else {
           throw Exception('Failed to register: No user data found in response');
         }
       } else {
+        // Handle failure scenario based on `msg`
         String message = jsonResponse['msg'] ?? 'Unknown error occurred';
         throw Exception('Failed to register: $message');
       }
     } else {
+      // Handle non-200 responses
       throw Exception('HTTP error: ${response.statusCode}, ${response.body}');
     }
   }
+
+
+
 }

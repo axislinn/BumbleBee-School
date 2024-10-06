@@ -28,7 +28,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ..add(
             FetchPosts()), // Trigger FetchPosts event when HomeScreen is created
       child: Scaffold(
+        
         appBar: AppBar(
+          automaticallyImplyLeading: false, 
           title: Text('Home Screen'),
         ),  
         endDrawer: const NaviDrawer(),
