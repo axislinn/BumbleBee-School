@@ -44,7 +44,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
   print('Loading classes...');
   emit(ClassLoading());
   try {
-    final classes = await classRepository.fetchClasses(token);
+    final classes = await studentRepository.getClasses(token);
     print('Classes loaded: ${classes.length}');
     emit(ClassLoaded(classes));
   } catch (e) {

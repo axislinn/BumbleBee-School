@@ -1,4 +1,7 @@
+import 'package:bumblebee/bloc/Admin+Teacher/classes/student_bloc/student_bloc.dart';
+import 'package:bumblebee/data/repositories/Admin+Teacher/student_repository.dart';
 import 'package:bumblebee/screens/Admin+Teacher/navi_drawer/drawer/options_screen.dart';
+import 'package:bumblebee/screens/Teacher/class_list.dart';
 import 'package:flutter/material.dart';
 import 'package:bumblebee/screens/Admin+Teacher/auth/loginscreen.dart';
 import 'package:bumblebee/screens/Admin+Teacher/home/home_screen.dart';
@@ -21,6 +24,15 @@ class DrawerRoutes {
             child: JoinClassPage(),
           ),
         );
+      case '/classlist':
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<StudentBloc>(
+            create: (context) => StudentBloc(ClassRepository(), UserRepository(), StudentRepository()),
+            child: ClassList(),
+          ),
+        );
+      // case '/classlist':
+      //   return MaterialPageRoute(builder: (_) => ClassList());
       case '/info':
         return MaterialPageRoute(builder: (_) => InfoPage());
       case '/settings':

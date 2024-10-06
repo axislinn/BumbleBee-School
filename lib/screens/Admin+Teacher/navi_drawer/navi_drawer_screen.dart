@@ -24,7 +24,7 @@ class _NaviDrawerState extends State<NaviDrawer> {
     ],
     'teacher': [
       {'icon': Icons.home, 'title': 'Home', 'route': '/home'},
-      {'icon': Icons.class_, 'title': 'Join Class', 'route': '/joinClass'},
+      {'icon': Icons.class_, 'title': 'Class', 'route': '/classlist'},
       {'icon': Icons.settings, 'title': 'Settings', 'route': '/settings'},
       {'icon': Icons.info, 'title': 'Info', 'route': '/info'},
     ],

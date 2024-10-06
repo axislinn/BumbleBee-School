@@ -34,7 +34,7 @@ Future<List<StudentModel>> fetchClasses(String token) async {
 }
 
 
-  Future<List<StudentModel>> getClasses(String token) async {
+  Future<List<Class>> getClasses(String token) async {
     final url = Uri.parse('$baseUrl/api/class/readByTeacherAndGuardian');
     final response = await http.get(
       url,
@@ -54,7 +54,7 @@ Future<List<StudentModel>> fetchClasses(String token) async {
     print(data['result']);
     List<dynamic> classesList = data['result']['classes'];
     print("testing $classesList");
-    return classesList.map((json) => StudentModel.fromJson(json)).toList();
+    return classesList.map((json) => Class.fromJson(json)).toList();
   }
 
 
