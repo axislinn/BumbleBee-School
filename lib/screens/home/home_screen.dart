@@ -37,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           title: Text('Home Screen'),
         ),
+
         body: _pages[
             _currentIndex], // Change the body based on the selected index
         floatingActionButton: _currentIndex == 0
