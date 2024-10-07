@@ -2,6 +2,7 @@ import 'package:bumblebee/bloc/Admin+Teacher/classes/create_edit_bloc/class_bloc
 import 'package:bumblebee/bloc/Admin+Teacher/classes/create_edit_bloc/class_event.dart';
 import 'package:bumblebee/bloc/Admin+Teacher/classes/create_edit_bloc/class_state.dart';
 import 'package:bumblebee/bloc/Admin+Teacher/classes/student_bloc/student_bloc.dart';
+import 'package:bumblebee/screens/Admin+Teacher/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,6 +34,7 @@ class _RequestToJoinClassState extends State<RequestToJoinClass> {
                 _isButtonDisabled = false;
               });
               _classCodeController.clear(); // Clear the text field
+              
             } else if (state is JoinClassErrorState) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text('Error joining class: ${state.message}'),
@@ -43,32 +45,36 @@ class _RequestToJoinClassState extends State<RequestToJoinClass> {
             }
           },
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextField(
-                  decoration: InputDecoration(labelText: 'Class Code'),
-                  obscureText: false,
-                  controller: _classCodeController,
-                ),
+              controller: _classCodeController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Enter your Class Code',
+              ),
+            ),
               SizedBox(height: 20),
-              // Replacing MyButton with ElevatedButton to show loading state
-              ElevatedButton(
-                onPressed: _isButtonDisabled
-                    ? null
-                    : () {
-                        setState(() {
-                          _isButtonDisabled = true;
-                        });
-                        _requestToJoinClass(context);
-                      },
-                child: _isButtonDisabled
-                    ? SizedBox(
-                        height: 16,
-                        width: 16,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                        ),
-                      )
-                    : Text('Join Class'),
+              Center( 
+                child: ElevatedButton(
+                  onPressed: _isButtonDisabled
+                      ? null
+                      : () {
+                          setState(() {
+                            _isButtonDisabled = true;
+                          });
+                          _requestToJoinClass(context);
+                        },
+                  child: _isButtonDisabled
+                      ? SizedBox(
+                          height: 16,
+                          width: 16,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : Text('Join Class'),
+                ),
               ),
             ],
           ),
