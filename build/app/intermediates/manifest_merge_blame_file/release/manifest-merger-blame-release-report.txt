@@ -1,0 +1,238 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.bumblebee"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+8-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="34" />
+9-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:2:1-63
+11-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:2:18-60
+12    <!--
+13         Required to query activities that can process text, see:
+14         https://developer.android.com/training/package-visibility and
+15         https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
+16
+17         In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin.
+18    -->
+19    <queries>
+19-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:41:5-46:15
+20        <intent>
+20-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:42:9-45:18
+21            <action android:name="android.intent.action.PROCESS_TEXT" />
+21-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:43:13-72
+21-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:43:21-70
+22
+23            <data android:mimeType="text/plain" />
+23-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:44:13-50
+23-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:44:19-48
+24        </intent>
+25        <intent>
+25-->[:file_picker] G:\BumbleBee\fix\BumbleBee-School\build\file_picker\intermediates\merged_manifest\release\AndroidManifest.xml:14:9-18:18
+26            <action android:name="android.intent.action.GET_CONTENT" />
+26-->[:file_picker] G:\BumbleBee\fix\BumbleBee-School\build\file_picker\intermediates\merged_manifest\release\AndroidManifest.xml:15:13-72
+26-->[:file_picker] G:\BumbleBee\fix\BumbleBee-School\build\file_picker\intermediates\merged_manifest\release\AndroidManifest.xml:15:21-69
+27
+28            <data android:mimeType="*/*" />
+28-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:44:13-50
+28-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:44:19-48
+29        </intent>
+30    </queries>
+31
+32    <uses-permission
+32-->[:file_picker] G:\BumbleBee\fix\BumbleBee-School\build\file_picker\intermediates\merged_manifest\release\AndroidManifest.xml:9:5-11:38
+33        android:name="android.permission.READ_EXTERNAL_STORAGE"
+33-->[:file_picker] G:\BumbleBee\fix\BumbleBee-School\build\file_picker\intermediates\merged_manifest\release\AndroidManifest.xml:10:9-64
+34        android:maxSdkVersion="32" />
+34-->[:file_picker] G:\BumbleBee\fix\BumbleBee-School\build\file_picker\intermediates\merged_manifest\release\AndroidManifest.xml:11:9-35
+35
+36    <permission
+36-->[androidx.core:core:1.13.1] C:\Users\Admin\.gradle\caches\transforms-3\2f6a5506f4dac22f7ab67b13b215ea43\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
+37        android:name="com.example.bumblebee.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+37-->[androidx.core:core:1.13.1] C:\Users\Admin\.gradle\caches\transforms-3\2f6a5506f4dac22f7ab67b13b215ea43\transformed\core-1.13.1\AndroidManifest.xml:23:9-81
+38        android:protectionLevel="signature" />
+38-->[androidx.core:core:1.13.1] C:\Users\Admin\.gradle\caches\transforms-3\2f6a5506f4dac22f7ab67b13b215ea43\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
+39
+40    <uses-permission android:name="com.example.bumblebee.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+40-->[androidx.core:core:1.13.1] C:\Users\Admin\.gradle\caches\transforms-3\2f6a5506f4dac22f7ab67b13b215ea43\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
+40-->[androidx.core:core:1.13.1] C:\Users\Admin\.gradle\caches\transforms-3\2f6a5506f4dac22f7ab67b13b215ea43\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
+41
+42    <application
+43        android:name="android.app.Application"
+43-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:6:9-42
+44        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+44-->[androidx.core:core:1.13.1] C:\Users\Admin\.gradle\caches\transforms-3\2f6a5506f4dac22f7ab67b13b215ea43\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
+45        android:enableOnBackInvokedCallback="true"
+45-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:4:5-47
+46        android:icon="@mipmap/ic_launcher"
+46-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:7:9-43
+47        android:label="bumblebee" >
+47-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:5:9-34
+48        <activity
+48-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:8:9-29:20
+49            android:name="com.example.bumblebee.MainActivity"
+49-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:9:13-41
+50            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+50-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:14:13-163
+51            android:exported="true"
+51-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:10:13-36
+52            android:hardwareAccelerated="true"
+52-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:15:13-47
+53            android:launchMode="singleTop"
+53-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:11:13-43
+54            android:taskAffinity=""
+54-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:12:13-36
+55            android:theme="@style/LaunchTheme"
+55-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:13:13-47
+56            android:windowSoftInputMode="adjustResize" >
+56-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:16:13-55
+57
+58            <!--
+59                 Specifies an Android theme to apply to this Activity as soon as
+60                 the Android process has started. This theme is visible to the user
+61                 while the Flutter UI initializes. After that, this theme continues
+62                 to determine the Window background behind the Flutter UI.
+63            -->
+64            <meta-data
+64-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:21:13-24:17
+65                android:name="io.flutter.embedding.android.NormalTheme"
+65-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:22:15-70
+66                android:resource="@style/NormalTheme" />
+66-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:23:15-52
+67
+68            <intent-filter>
+68-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:25:13-28:29
+69                <action android:name="android.intent.action.MAIN" />
+69-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:26:17-68
+69-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:26:25-66
+70
+71                <category android:name="android.intent.category.LAUNCHER" />
+71-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:27:17-76
+71-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:27:27-74
+72            </intent-filter>
+73        </activity>
+74        <!--
+75             Don't delete the meta-data below.
+76             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+77        -->
+78        <meta-data
+78-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:32:9-34:33
+79            android:name="flutterEmbedding"
+79-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:33:13-44
+80            android:value="2" />
+80-->G:\BumbleBee\fix\BumbleBee-School\android\app\src\main\AndroidManifest.xml:34:13-30
+81
+82        <provider
+82-->[:image_picker_android] G:\BumbleBee\fix\BumbleBee-School\build\image_picker_android\intermediates\merged_manifest\release\AndroidManifest.xml:11:9-19:20
+83            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
+83-->[:image_picker_android] G:\BumbleBee\fix\BumbleBee-School\build\image_picker_android\intermediates\merged_manifest\release\AndroidManifest.xml:12:13-82
+84            android:authorities="com.example.bumblebee.flutter.image_provider"
+84-->[:image_picker_android] G:\BumbleBee\fix\BumbleBee-School\build\image_picker_android\intermediates\merged_manifest\release\AndroidManifest.xml:13:13-74
+85            android:exported="false"
+85-->[:image_picker_android] G:\BumbleBee\fix\BumbleBee-School\build\image_picker_android\intermediates\merged_manifest\release\AndroidManifest.xml:14:13-37
+86            android:grantUriPermissions="true" >
+86-->[:image_picker_android] G:\BumbleBee\fix\BumbleBee-School\build\image_picker_android\intermediates\merged_manifest\release\AndroidManifest.xml:15:13-47
+87            <meta-data
+87-->[:image_picker_android] G:\BumbleBee\fix\BumbleBee-School\build\image_picker_android\intermediates\merged_manifest\release\AndroidManifest.xml:16:13-18:75
+88                android:name="android.support.FILE_PROVIDER_PATHS"
+88-->[:image_picker_android] G:\BumbleBee\fix\BumbleBee-School\build\image_picker_android\intermediates\merged_manifest\release\AndroidManifest.xml:17:17-67
+89                android:resource="@xml/flutter_image_picker_file_paths" />
+89-->[:image_picker_android] G:\BumbleBee\fix\BumbleBee-School\build\image_picker_android\intermediates\merged_manifest\release\AndroidManifest.xml:18:17-72
+90        </provider> <!-- Trigger Google Play services to install the backported photo picker module. -->
+91        <service
+91-->[:image_picker_android] G:\BumbleBee\fix\BumbleBee-School\build\image_picker_android\intermediates\merged_manifest\release\AndroidManifest.xml:21:9-33:19
+92            android:name="com.google.android.gms.metadata.ModuleDependencies"
+92-->[:image_picker_android] G:\BumbleBee\fix\BumbleBee-School\build\image_picker_android\intermediates\merged_manifest\release\AndroidManifest.xml:22:13-78
+93            android:enabled="false"
+93-->[:image_picker_android] G:\BumbleBee\fix\BumbleBee-School\build\image_picker_android\intermediates\merged_manifest\release\AndroidManifest.xml:23:13-36
+94            android:exported="false" >
+94-->[:image_picker_android] G:\BumbleBee\fix\BumbleBee-School\build\image_picker_android\intermediates\merged_manifest\release\AndroidManifest.xml:24:13-37
+95            <intent-filter>
+95-->[:image_picker_android] G:\BumbleBee\fix\BumbleBee-School\build\image_picker_android\intermediates\merged_manifest\release\AndroidManifest.xml:26:13-28:29
+96                <action android:name="com.google.android.gms.metadata.MODULE_DEPENDENCIES" />
+96-->[:image_picker_android] G:\BumbleBee\fix\BumbleBee-School\build\image_picker_android\intermediates\merged_manifest\release\AndroidManifest.xml:27:17-94
+96-->[:image_picker_android] G:\BumbleBee\fix\BumbleBee-School\build\image_picker_android\intermediates\merged_manifest\release\AndroidManifest.xml:27:25-91
+97            </intent-filter>
+98
+99            <meta-data
+99-->[:image_picker_android] G:\BumbleBee\fix\BumbleBee-School\build\image_picker_android\intermediates\merged_manifest\release\AndroidManifest.xml:30:13-32:36
+100                android:name="photopicker_activity:0:required"
+100-->[:image_picker_android] G:\BumbleBee\fix\BumbleBee-School\build\image_picker_android\intermediates\merged_manifest\release\AndroidManifest.xml:31:17-63
+101                android:value="" />
+101-->[:image_picker_android] G:\BumbleBee\fix\BumbleBee-School\build\image_picker_android\intermediates\merged_manifest\release\AndroidManifest.xml:32:17-33
+102        </service>
+103
+104        <uses-library
+104-->[androidx.window:window:1.0.0-beta04] C:\Users\Admin\.gradle\caches\transforms-3\f302e75fb7efd781bcf1a29281c188da\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
+105            android:name="androidx.window.extensions"
+105-->[androidx.window:window:1.0.0-beta04] C:\Users\Admin\.gradle\caches\transforms-3\f302e75fb7efd781bcf1a29281c188da\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
+106            android:required="false" />
+106-->[androidx.window:window:1.0.0-beta04] C:\Users\Admin\.gradle\caches\transforms-3\f302e75fb7efd781bcf1a29281c188da\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
+107        <uses-library
+107-->[androidx.window:window:1.0.0-beta04] C:\Users\Admin\.gradle\caches\transforms-3\f302e75fb7efd781bcf1a29281c188da\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
+108            android:name="androidx.window.sidecar"
+108-->[androidx.window:window:1.0.0-beta04] C:\Users\Admin\.gradle\caches\transforms-3\f302e75fb7efd781bcf1a29281c188da\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
+109            android:required="false" />
+109-->[androidx.window:window:1.0.0-beta04] C:\Users\Admin\.gradle\caches\transforms-3\f302e75fb7efd781bcf1a29281c188da\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
+110
+111        <provider
+111-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:24:9-32:20
+112            android:name="androidx.startup.InitializationProvider"
+112-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:25:13-67
+113            android:authorities="com.example.bumblebee.androidx-startup"
+113-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:26:13-68
+114            android:exported="false" >
+114-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:27:13-37
+115            <meta-data
+115-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+116                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+116-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+117                android:value="androidx.startup" />
+117-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+118        </provider>
+119
+120        <receiver
+120-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+121            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+121-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+122            android:directBootAware="false"
+122-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+123            android:enabled="true"
+123-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+124            android:exported="true"
+124-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+125            android:permission="android.permission.DUMP" >
+125-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
+126            <intent-filter>
+126-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+127                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+127-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+127-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
+128            </intent-filter>
+129            <intent-filter>
+129-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+130                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+130-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+130-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+131            </intent-filter>
+132            <intent-filter>
+132-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+133                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+133-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+133-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+134            </intent-filter>
+135            <intent-filter>
+135-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+136                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+136-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+136-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\Admin\.gradle\caches\transforms-3\e852edee255e4ba7fa4d5b58ba237ddb\transformed\jetified-profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+137            </intent-filter>
+138        </receiver>
+139    </application>
+140
+141</manifest>
