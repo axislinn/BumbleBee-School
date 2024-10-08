@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:bumblebee/models/Admin/school_model.dart';
+import 'package:bumblebee_school/models/Admin/school_model.dart';
 import 'package:http/http.dart' as http;
 
 class SchoolRepository {

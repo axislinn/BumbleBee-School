@@ -1,7 +1,4 @@
-import 'package:bumblebee/models/Admin+Teacher/class_model.dart';
-import 'package:bumblebee/models/Admin+Teacher/student_model.dart';
-import 'package:bumblebee/models/Admin+Teacher/user_model.dart';
-import 'package:bumblebee/models/Admin/school_model.dart';
+import 'package:bumblebee_school/models/Admin+Teacher/class_model.dart';
 
 abstract class ClassState {}
 

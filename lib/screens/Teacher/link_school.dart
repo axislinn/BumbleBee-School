@@ -1,4 +1,4 @@
-import 'package:bumblebee/screens/Teacher/Teacher_home.dart';
+import 'package:bumblebee_school/screens/Teacher/Teacher_home.dart';
 import 'package:flutter/material.dart';
 
 class LinkSchool extends StatefulWidget {

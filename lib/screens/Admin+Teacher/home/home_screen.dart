@@ -1,10 +1,10 @@
-import 'package:bumblebee/bloc/Admin+Teacher/post/post_bloc.dart';
-import 'package:bumblebee/bloc/Admin+Teacher/post/post_event.dart';
-import 'package:bumblebee/data/repositories/Admin+Teacher/post_repository.dart';
-import 'package:bumblebee/screens/Admin+Teacher/bottom_nav/bottom_nav.dart';
-import 'package:bumblebee/screens/Admin+Teacher/home/create_post_screen.dart';
-import 'package:bumblebee/screens/Admin+Teacher/home/home_body.dart';
-import 'package:bumblebee/screens/Admin+Teacher/navi_drawer/navi_drawer_screen.dart';
+import 'package:bumblebee_school/bloc/Admin+Teacher/post/post_bloc.dart';
+import 'package:bumblebee_school/bloc/Admin+Teacher/post/post_event.dart';
+import 'package:bumblebee_school/data/repositories/Admin+Teacher/post_repository.dart';
+import 'package:bumblebee_school/screens/Admin+Teacher/bottom_nav/bottom_nav.dart';
+import 'package:bumblebee_school/screens/Admin+Teacher/home/create_post_screen.dart';
+import 'package:bumblebee_school/screens/Admin+Teacher/home/home_body.dart';
+import 'package:bumblebee_school/screens/Admin+Teacher/navi_drawer/navi_drawer_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

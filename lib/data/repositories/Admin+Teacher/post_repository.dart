@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:bumblebee/models/Admin+Teacher/post_model.dart';
+import 'package:bumblebee_school/models/Admin+Teacher/post_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 

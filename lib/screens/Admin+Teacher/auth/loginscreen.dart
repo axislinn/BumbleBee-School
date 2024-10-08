@@ -1,12 +1,14 @@
-import 'package:bumblebee/screens/Admin+Teacher/home/home_screen.dart';
-import 'package:bumblebee/screens/Admin+Teacher/role_selection/role_seletion.dart';
-import 'package:bumblebee/screens/Admin+Teacher/school_select.dart';
+
+import 'package:bumblebee_school/bloc/Admin+Teacher/auth/login_bloc/login_bloc.dart';
+import 'package:bumblebee_school/bloc/Admin+Teacher/auth/login_bloc/login_event.dart';
+import 'package:bumblebee_school/bloc/Admin+Teacher/auth/login_bloc/login_state.dart';
+import 'package:bumblebee_school/data/repositories/Admin+Teacher/user_repository.dart';
+import 'package:bumblebee_school/screens/Admin+Teacher/home/home_screen.dart';
+import 'package:bumblebee_school/screens/Admin+Teacher/role_selection/role_seletion.dart';
+import 'package:bumblebee_school/screens/Admin+Teacher/school_select.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:bumblebee/bloc/Admin+Teacher/auth/login_bloc/login_bloc.dart';
-import 'package:bumblebee/bloc/Admin+Teacher/auth/login_bloc/login_event.dart';
-import 'package:bumblebee/bloc/Admin+Teacher/auth/login_bloc/login_state.dart';
-import 'package:bumblebee/data/repositories/Admin+Teacher/user_repository.dart';
+
 
 class LoginScreen extends StatelessWidget {
   final UserRepository userRepository = UserRepository();

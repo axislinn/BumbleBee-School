@@ -1,5 +1,5 @@
-import 'package:bumblebee/screens/Teacher/link_school.dart';
-import 'package:bumblebee/screens/Admin/register_school.dart';
+import 'package:bumblebee_school/screens/Admin/register_school.dart';
+import 'package:bumblebee_school/screens/Teacher/link_school.dart';
 import 'package:flutter/material.dart';
 
 class SchoolSelect extends StatelessWidget{

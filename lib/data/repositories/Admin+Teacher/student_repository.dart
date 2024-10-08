@@ -1,8 +1,7 @@
 import 'dart:convert';
-import 'package:bumblebee/models/Admin+Teacher/class_model.dart';
-import 'package:bumblebee/models/Admin+Teacher/student_model.dart';
-import 'package:bumblebee/models/Admin+Teacher/user_model.dart';
-import 'package:bumblebee/models/Admin/school_model.dart';
+import 'package:bumblebee_school/models/Admin+Teacher/class_model.dart';
+import 'package:bumblebee_school/models/Admin+Teacher/student_model.dart';
+import 'package:bumblebee_school/models/Admin+Teacher/user_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 

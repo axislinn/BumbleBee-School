@@ -1,12 +1,11 @@
 import 'package:bloc/bloc.dart';
-import 'package:bumblebee/bloc/Admin+Teacher/classes/create_edit_bloc/class_event.dart';
-import 'package:bumblebee/data/repositories/Admin+Teacher/class_repository.dart';
-import 'package:bumblebee/data/repositories/Admin+Teacher/student_repository.dart';
-import 'package:bumblebee/data/repositories/Admin+Teacher/user_repository.dart';
-import 'package:bumblebee/models/Admin+Teacher/class_model.dart';
-import 'package:bumblebee/models/Admin+Teacher/student_model.dart';
-import 'package:bumblebee/models/Admin+Teacher/user_model.dart';
-import 'package:equatable/equatable.dart';
+import 'package:bumblebee_school/data/repositories/Admin+Teacher/class_repository.dart';
+import 'package:bumblebee_school/data/repositories/Admin+Teacher/student_repository.dart';
+import 'package:bumblebee_school/data/repositories/Admin+Teacher/user_repository.dart';
+import 'package:bumblebee_school/models/Admin+Teacher/class_model.dart';
+import 'package:bumblebee_school/models/Admin+Teacher/student_model.dart';
+import 'package:bumblebee_school/models/Admin+Teacher/user_model.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'student_event.dart';

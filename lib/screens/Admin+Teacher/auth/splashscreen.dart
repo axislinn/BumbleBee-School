@@ -1,5 +1,6 @@
-import 'package:bumblebee/screens/Admin+Teacher/auth/loginscreen.dart';
-import 'package:bumblebee/screens/Admin+Teacher/home/home_screen.dart'; // Update this import according to your Home Page path
+// Update this import according to your Home Page path
+import 'package:bumblebee_school/screens/Admin+Teacher/auth/loginscreen.dart';
+import 'package:bumblebee_school/screens/Admin+Teacher/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart'; 
 import 'dart:async';

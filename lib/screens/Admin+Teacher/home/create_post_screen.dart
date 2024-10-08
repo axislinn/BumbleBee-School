@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:bumblebee/bloc/Admin+Teacher/post/post_bloc.dart';
-import 'package:bumblebee/bloc/Admin+Teacher/post/post_event.dart';
-import 'package:bumblebee/bloc/Admin+Teacher/post/post_state.dart';
+import 'package:bumblebee_school/bloc/Admin+Teacher/post/post_bloc.dart';
+import 'package:bumblebee_school/bloc/Admin+Teacher/post/post_event.dart';
+import 'package:bumblebee_school/bloc/Admin+Teacher/post/post_state.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

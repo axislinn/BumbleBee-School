@@ -1,9 +1,9 @@
 // school_bloc.dart
 
-import 'package:bumblebee/bloc/Admin/school_register_bloc/school_register_event.dart';
-import 'package:bumblebee/bloc/Admin/school_register_bloc/school_register_state.dart';
-import 'package:bumblebee/data/repositories/Admin/school_repository.dart';
-import 'package:bumblebee/models/Admin/school_model.dart';
+import 'package:bumblebee_school/bloc/Admin/school_register_bloc/school_register_event.dart';
+import 'package:bumblebee_school/bloc/Admin/school_register_bloc/school_register_state.dart';
+import 'package:bumblebee_school/data/repositories/Admin/school_repository.dart';
+import 'package:bumblebee_school/models/Admin/school_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

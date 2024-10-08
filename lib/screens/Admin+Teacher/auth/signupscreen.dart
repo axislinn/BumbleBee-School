@@ -1,10 +1,11 @@
-import 'package:bumblebee/data/repositories/Admin+Teacher/user_repository.dart';
+import 'package:bumblebee_school/bloc/Admin+Teacher/auth/signup_bloc/signup_bloc.dart';
+import 'package:bumblebee_school/bloc/Admin+Teacher/auth/signup_bloc/signup_event.dart';
+import 'package:bumblebee_school/bloc/Admin+Teacher/auth/signup_bloc/signup_state.dart';
+import 'package:bumblebee_school/data/repositories/Admin+Teacher/user_repository.dart';
+import 'package:bumblebee_school/screens/Admin+Teacher/auth/loginscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:bumblebee/bloc/Admin+Teacher/auth/signup_bloc/signup_bloc.dart';
-import 'package:bumblebee/bloc/Admin+Teacher/auth/signup_bloc/signup_event.dart';
-import 'package:bumblebee/bloc/Admin+Teacher/auth/signup_bloc/signup_state.dart';
-import 'package:bumblebee/screens/Admin+Teacher/auth/loginscreen.dart';
+
 
 class RegisterScreen extends StatelessWidget {
   final TextEditingController _userNameController = TextEditingController();

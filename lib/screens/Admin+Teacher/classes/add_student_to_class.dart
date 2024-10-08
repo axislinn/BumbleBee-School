@@ -1,5 +1,5 @@
-import 'package:bumblebee/bloc/Admin+Teacher/classes/student_bloc/student_bloc.dart';
-import 'package:bumblebee/screens/Admin+Teacher/classes/student_list.dart';
+import 'package:bumblebee_school/bloc/Admin+Teacher/classes/student_bloc/student_bloc.dart';
+import 'package:bumblebee_school/screens/Admin+Teacher/classes/student_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';

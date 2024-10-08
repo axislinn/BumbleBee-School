@@ -1,4 +1,4 @@
-import 'package:bumblebee/models/Admin+Teacher/post_model.dart';
+import 'package:bumblebee_school/models/Admin+Teacher/post_model.dart';
 
 abstract class PostState {}
 

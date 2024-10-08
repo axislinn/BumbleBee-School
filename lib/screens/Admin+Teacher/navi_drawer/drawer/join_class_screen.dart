@@ -1,8 +1,7 @@
-import 'package:bumblebee/bloc/Admin+Teacher/classes/create_edit_bloc/class_bloc.dart';
-import 'package:bumblebee/bloc/Admin+Teacher/classes/create_edit_bloc/class_event.dart';
-import 'package:bumblebee/data/repositories/Admin+Teacher/class_repository.dart';
-import 'package:bumblebee/models/Admin+Teacher/class_model.dart';
-import 'package:bumblebee/screens/Admin+Teacher/classes/classes.dart';
+import 'package:bumblebee_school/bloc/Admin+Teacher/classes/create_edit_bloc/class_bloc.dart';
+import 'package:bumblebee_school/bloc/Admin+Teacher/classes/create_edit_bloc/class_event.dart';
+import 'package:bumblebee_school/models/Admin+Teacher/class_model.dart';
+import 'package:bumblebee_school/screens/Admin+Teacher/classes/classes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
