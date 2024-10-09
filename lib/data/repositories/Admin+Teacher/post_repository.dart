@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:bumblebee/models/Admin+Teacher/post_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiResponse {
   final bool success;
@@ -135,6 +136,105 @@ class PostRepository {
       // Debugging: Log any errors
       print("Error fetching posts: $e");
       return [];
+    }
+  }
+
+  // Fetch class names
+  static Future<List<String>> fetchClassNames(String token) async {
+    final response = await http.get(
+      Uri.parse(
+          'https://bumblebeeflutterdeploy-production.up.railway.app/api/class/classNames'),
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+
+      // Debugging the structure
+      print(jsonResponse);
+
+      if (jsonResponse["con"] == true) {
+        // The result is directly a list of class names
+        var classNamesResult = jsonResponse["result"];
+
+        // Ensure it's a list, and then return it
+        if (classNamesResult is List) {
+          return List<String>.from(classNamesResult);
+        } else {
+          throw Exception(
+              "Expected a list of class names, but got something else.");
+        }
+      } else {
+        throw Exception("Error fetching class names: ${jsonResponse['msg']}");
+      }
+    } else {
+      throw Exception('Failed to fetch class names');
+    }
+  }
+
+  //fetch Grade Names
+  static Future<List<String>> fetchGradeNames(String token) async {
+    final response = await http.get(
+      Uri.parse(
+          'https://bumblebeeflutterdeploy-production.up.railway.app/api/class/gradeNames'),
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+
+      // Debugging the structure
+      print(jsonResponse);
+
+      if (jsonResponse["con"] == true) {
+        // The result is directly a list of grade names
+        var gradeNamesResult = jsonResponse["result"];
+
+        // Ensure it's a list, and then return it
+        if (gradeNamesResult is List) {
+          return List<String>.from(gradeNamesResult);
+        } else {
+          throw Exception(
+              "Expected a list of grade names, but got something else.");
+        }
+      } else {
+        throw Exception("Error fetching grade names: ${jsonResponse['msg']}");
+      }
+    } else {
+      throw Exception('Failed to fetch grade names');
+    }
+  }
+
+  //get schoolName and schoolId
+  static Future<List<Map<String, dynamic>>> fetchSchoolData(
+      String token) async {
+    final response = await http.get(
+      Uri.parse(
+          'https://bumblebeeflutterdeploy-production.up.railway.app/api/school/getSchool'), // Replace with actual endpoint
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+
+      // Debugging: print the whole JSON response
+      print('JSON Response: $jsonResponse');
+
+      // Check if the expected fields exist in the response
+      if (jsonResponse["con"] == true && jsonResponse["result"] is List) {
+        // Return the list of schools
+        return List<Map<String, dynamic>>.from(jsonResponse["result"]);
+      } else {
+        throw Exception("Error fetching school data: ${jsonResponse['msg']}");
+      }
+    } else {
+      throw Exception('Failed to fetch school data: ${response.statusCode}');
     }
   }
 }

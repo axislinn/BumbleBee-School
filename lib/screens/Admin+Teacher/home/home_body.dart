@@ -1,49 +1,6 @@
-import 'package:bumblebee/bloc/Admin+Teacher/post/post_bloc.dart';
-import 'package:bumblebee/bloc/Admin+Teacher/post/post_event.dart';
-import 'package:bumblebee/bloc/Admin+Teacher/post/post_state.dart';
 import 'package:bumblebee/models/Admin+Teacher/post_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timeago/timeago.dart' as timeago;
-
-class HomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<PostBloc, PostState>(
-        builder: (context, state) {
-          if (state is PostLoading) {
-            return Center(child: CircularProgressIndicator());
-          } else if (state is PostSuccess) {
-            final posts = state.posts;
-
-            if (posts.isEmpty) {
-              return Center(child: Text('No posts available'));
-            }
-
-            return RefreshIndicator(
-              onRefresh: () async {
-                // Trigger refresh when user pulls down
-                context.read<PostBloc>().add(FetchPosts());
-              },
-              child: ListView.builder(
-                itemCount: posts.length,
-                itemBuilder: (context, index) {
-                  final post = posts[index];
-                  return PostWidget(post: post);
-                },
-              ),
-            );
-          } else if (state is PostFailure) {
-            return Center(child: Text('Failed to load posts: ${state.error}'));
-          } else {
-            return Center(child: Text('Unexpected error occurred.'));
-          }
-        },
-      ),
-    );
-  }
-}
 
 class PostWidget extends StatelessWidget {
   final PostModel post;
@@ -156,25 +113,42 @@ class PostWidget extends StatelessWidget {
                 children: [
                   const Text(
                     'Attached Documents:',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 5),
-                  ...post.documents!.map((doc) => GestureDetector(
-                        onTap: () {
-                          // Handle document click, e.g., open file
-                        },
-                        child: Text(
-                          doc,
-                          style: const TextStyle(
-                              color: Colors.blue,
-                              fontSize: 14,
-                              decoration: TextDecoration.underline),
+                  const SizedBox(height: 10), // Larger space after title
+                  ...post.documents!.map((doc) => Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical:
+                                5), // Adds vertical space between documents
+                        child: Row(
+                          children: [
+                            Icon(Icons.attach_file,
+                                color: Colors.blue), // Icon for document
+                            const SizedBox(
+                                width: 5), // Space between icon and text
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  // Handle document click, e.g., open file
+                                },
+                                child: Text(
+                                  doc,
+                                  style: const TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 14,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                  overflow: TextOverflow
+                                      .ellipsis, // Truncate long text with ellipsis
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       )),
                 ],
               ),
             const SizedBox(height: 10),
-
             // Like/Reaction Section
             Row(
               children: [

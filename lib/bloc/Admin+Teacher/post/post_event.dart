@@ -11,6 +11,7 @@ class CreatePost extends PostEvent {
   final String? body;
   final String contentType;
   final String classId;
+  final String gradeId;
   final String schoolId;
   final List<File> contentPictures; // Now accepts multiple images
   final List<File> documents; // List of selected documents
@@ -20,6 +21,7 @@ class CreatePost extends PostEvent {
     this.body,
     required this.contentType,
     required this.classId,
+    required this.gradeId,
     required this.schoolId,
     required this.contentPictures, // Optionally pass an image file here
     required this.documents, // Ensure this is defined
@@ -31,6 +33,7 @@ class CreatePost extends PostEvent {
         body,
         contentType,
         classId,
+        gradeId,
         contentPictures,
         documents, // Ensure this is included in the props
       ];
